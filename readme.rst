@@ -1,2 +1,2 @@
 Bus Booking
-this is going to a be a test.
+<h1>This is a online bus booking project</h1>
