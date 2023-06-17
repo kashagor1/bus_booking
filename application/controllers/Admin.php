@@ -10,12 +10,18 @@ class Admin extends CI_Controller {
 	
 	public function index()
 	{
-		echo 'admin';
+		$this->load->view('admin/login');
 	}
     public function login(){
         $this->load->view('admin/login');
     }
     
+	public function logout(){
+		$this->session->sess_destroy();
+		redirect(base_url('admin'));
+	}
+
+
 
     public function auth(){
 		$this->check_input();
@@ -28,11 +34,11 @@ class Admin extends CI_Controller {
 					'role_id'=>$auth_res->role_id
 				 );
 				 $this->session->set_userdata($session_data);
-				 redirect('Dashboard');
+				 redirect(base_url('dashboard'));
 
 			}else{
 				$data = "Opps! Wrong Credentials!";
-				$this->load->view('admin/login');
+				redirect(base_url('admin'));
 			}
 		}
 	}
