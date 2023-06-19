@@ -54,3 +54,9 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 $route['admin']='admin';
 $route['dashboard']='dashboard';
+$route['district']='district';
+$route['dashboard/company']='dashboard/company';
+$route['dashboard/company_edit_info']='dashboard/company_edit';
+$route['dashboard/update_company']='dashboard/update_company';
+$route['dashboard/delete_company']='dashboard/delete_company';
+
