@@ -311,13 +311,30 @@
               </p>
             </a>
           </li>
-          <li class="nav-item">
-            <a href="<?php echo base_url()?>dashboard/routes" class="nav-link">
-            <i class="far fa-circle nav-icon"></i>
+         
+            <li class="nav-item">
+            <a href="#" class="nav-link">
+             <i class="fas fa-route"></i> 
               <p>
-                Routes
+                Route Options
+                <i class="fas fa-angle-left right"></i>
               </p>
             </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="<?php echo base_url()?>dashboard/routes" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Add Route</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="<?php echo base_url()?>dashboard/list_route" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Route List</p>
+                </a>
+              </li>
+           
+            </ul>
           </li>
           <li class="nav-item">
             <a href="<?php echo base_url()?>/admin/logout" class="nav-link">
