@@ -57,6 +57,7 @@ $(document).ready(function () {
 
 
   $('#dtBasicExample').DataTable();
+$('#rlist').DataTable();
 
 
 
@@ -77,8 +78,42 @@ $(document).ready(function () {
     }, "JSON");
 });
 
+
+
+
+  $(document).on('click', '.update_route_info', function() {
+    var r_id = $(this).attr("c_id");
+    console.log(r_id);
+    $.post("<?php echo base_url()?>dashboard/route_edit_info", {cid: r_id}, function(data) {
+        console.log(data);
+         $('#edit_r_name').val(data.route_name);
+         $('#edit_r_fare').val(data.fare);
+        $('#edit_point_type').val(data.point_type);
+         $('#re_id').val(data.id);
+    }, "JSON");
 });
 
+
+
+$(document).on('click', '.add-section', function() {
+            var clonedSection = $(this).closest('.section-container').clone();
+            clonedSection.find('input[type="text"], input[type="number"]').val('');
+            $(this).closest('.section-container').after(clonedSection);
+        });
+
+        // Remove Section
+        $(document).on('click', '.remove-section', function() {
+            if ($('#section-form .section-container').length > 1) {
+                $(this).closest('.section-container').remove();
+            }
+        });
+
+
+});
+
+
+
 </script>
+
 </body>
 </html>

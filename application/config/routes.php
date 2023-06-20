@@ -60,3 +60,11 @@ $route['dashboard/company_edit_info']='dashboard/company_edit';
 $route['dashboard/update_company']='dashboard/update_company';
 $route['dashboard/delete_company']='dashboard/delete_company';
 
+$route['dashboard/routes'] = 'routes';
+$route['dashboard/create_route'] = 'routes/create_route';
+$route['dashboard/delete_route'] = 'routes/del_route';
+$route['dashboard/delete_w_route'] = 'routes/del_w_route';
+$route['dashboard/list_route'] = 'routes/list_route';
+$route['dashboard/route_edit_info'] = 'routes/route_edit';
+$route['dashboard/update_route_info'] = 'routes/up_route';
+
