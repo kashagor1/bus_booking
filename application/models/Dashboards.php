@@ -53,5 +53,25 @@ class Dashboards extends CI_Model
     $this->db->delete('company');
 
   }
+  public function coachlist(){
+    $qq = "SELECT * FROM coach";
+    $query = $this->db->query($qq);
+    return $query->result_array();
+  }
+  public function create_coach($data){
+    //var_dump($data);die;
+    $oname = str_replace("'","''",$data['main_boarding']);
+    $dname = str_replace("'","''",$data['final_destination']);
+
+    $qq = "INSERT INTO `coach`(`coach_id`, `route_id`, `coach_type`, `vehicle_number`, `supervisor_no`, `seat_layout`, `departure`, `arrival`, `main_boarding`, `final_destination`, `total_fare`) VALUES
+     (NULL,'$data[cc_route_id]','$data[coach_type]','$data[vehicle_number]','$data[supervisor_no]','$data[seat_layout]','$data[departure]','$data[arrival]','$oname','$dname','$data[total_fare]')";
+
+     if($this->db->query($qq)){
+      return true;
+     }else{
+      return false;
+     }
+  }
+  
 
 }

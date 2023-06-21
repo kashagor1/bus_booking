@@ -53,18 +53,37 @@ $route['default_controller'] = 'welcome';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 $route['admin']='admin';
+
 $route['dashboard']='dashboard';
+
 $route['district']='district';
+$route['dashboard/odtbaseonroi']='district/route_info';
+/*For Company */
 $route['dashboard/company']='dashboard/company';
 $route['dashboard/company_edit_info']='dashboard/company_edit';
 $route['dashboard/update_company']='dashboard/update_company';
 $route['dashboard/delete_company']='dashboard/delete_company';
-
+/* For routes */
 $route['dashboard/routes'] = 'routes';
 $route['dashboard/create_route'] = 'routes/create_route';
 $route['dashboard/delete_route'] = 'routes/del_route';
 $route['dashboard/delete_w_route'] = 'routes/del_w_route';
 $route['dashboard/list_route'] = 'routes/list_route';
+$route['dashboard/list_route2'] = 'routes/list_route2';
+$route['dashboard/view_full_route'] = 'routes/view_full_route';
 $route['dashboard/route_edit_info'] = 'routes/route_edit';
 $route['dashboard/update_route_info'] = 'routes/up_route';
+$route['dashboard/update_route'] = 'routes/update_route';
+
+
+
+$route['dashboard/coach'] = 'coach';
+$route['dashboard/list_coach'] = 'coach/list_coach';
+$route['dashboard/create_coach'] = 'coach/create_coach';
+$route['dashboard/update_coach'] = 'coach/update_coach';
+$route['dashboard/view_coach_info'] = 'coach/view_coach_info';
+$route['dashboard/delete_coach'] = 'coach/delete_coach';
+
+
+
 

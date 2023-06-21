@@ -11,4 +11,10 @@ class District extends CI_Controller {
         $district = $this->Districts->getList();
 
     }
+	public function route_info(){
+	
+		$ni = $this->input->post('id');
+       $this->Districts->get_all_roi($ni);
+
+    }
 }
