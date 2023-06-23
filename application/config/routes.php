@@ -49,7 +49,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
-$route['default_controller'] = 'welcome';
+
+
+
+
+//$route['default_controller'] = 'welcome';
+$route['default_controller'] = 'home';
+
+
+
+
+
+
+
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 $route['admin']='admin';
@@ -76,8 +88,17 @@ $route['dashboard/update_route_info'] = 'routes/up_route';
 $route['dashboard/update_route'] = 'routes/update_route';
 
 
+$route['dashboard/trip'] = 'trip';
+$route['dashboard/create_trip'] = 'trip/create_trip';
+$route['dashboard/list_trip'] = 'trip/list_trip';
+$route['dashboard/view_trip_info'] = 'trip/view_trip_info';
+$route['dashboard/print_trip_info'] = 'trip/print_trip_info';
+
+
+
 
 $route['dashboard/coach'] = 'coach';
+$route['dashboard/coach_info'] = 'coach/coach_info';
 $route['dashboard/list_coach'] = 'coach/list_coach';
 $route['dashboard/create_coach'] = 'coach/create_coach';
 $route['dashboard/update_coach'] = 'coach/update_coach';

@@ -145,6 +145,8 @@ class Routes extends CI_Controller
     $this->load->view('dashboard/dash_footer');
 
   }
+  
+ 
 
   public function update_route(){
     $data = $this->input->post();

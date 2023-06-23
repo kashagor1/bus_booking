@@ -28,10 +28,13 @@
   <link rel="stylesheet" href="<?php echo base_url(); ?>assets/plugins/daterangepicker/daterangepicker.css">
   <!-- summernote -->
   <link rel="stylesheet" href="<?php echo base_url(); ?>assets/plugins/summernote/summernote-bs4.min.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+  <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css"> -->
 
+  <link rel="stylesheet" href="<?PHP ECHO BASE_URL();?>ASSETS/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="<?PHP ECHO BASE_URL();?>ASSETS/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="<?PHP ECHO BASE_URL();?>ASSETS/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -251,6 +254,30 @@
                   <a href="<?php echo base_url() ?>dashboard/list_coach" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Coach List</p>
+                  </a>
+                </li>
+
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+              <i class='fa fa-bus'></i>
+                <p>
+                  Trip Options
+                  <i class="fas fa-angle-left right"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="<?php echo base_url() ?>dashboard/trip" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Add New Trips</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="<?php echo base_url() ?>dashboard/list_trip" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Trip List</p>
                   </a>
                 </li>
 

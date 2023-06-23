@@ -49,19 +49,57 @@
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="<?php echo base_url();?>assets/dist/js/pages/dashboard.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+
+<script src="<?PHP ECHO BASE_URL();?>ASSETS/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?PHP ECHO BASE_URL();?>ASSETS/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="<?PHP ECHO BASE_URL();?>ASSETS/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="<?PHP ECHO BASE_URL();?>ASSETS/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="<?PHP ECHO BASE_URL();?>ASSETS/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="<?PHP ECHO BASE_URL();?>ASSETS/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="<?PHP ECHO BASE_URL();?>ASSETS/plugins/jszip/jszip.min.js"></script>
+<script src="<?PHP ECHO BASE_URL();?>ASSETS/plugins/pdfmake/pdfmake.min.js"></script>
+<script src="<?PHP ECHO BASE_URL();?>ASSETS/plugins/pdfmake/vfs_fonts.js"></script>
+<script src="<?PHP ECHO BASE_URL();?>ASSETS/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="<?PHP ECHO BASE_URL();?>ASSETS/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="<?PHP ECHO BASE_URL();?>ASSETS/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
 <script>
 $(document).ready(function () {
     $('#myTable').DataTable();
 
 
   $('#dtBasicExample').DataTable();
-$('#rlist').DataTable();
+//$('#rlist').DataTable();
+
+var table = $('#rlist').DataTable({
+    paging: true,
+    bFilter: true,
+    ordering: true,
+    searching: false,
+    dom: 'lBfrtip',
+    lengthMenu: [[10, 25, 50, -1], [10, 25, 50, 'All']],
+    buttons: [
+      
+      "copy",               // Copy button
+        "csv",                // CSV export button
+        "excel",              // Excel export button
+        "pdf",                // PDF export button
+        "print",              // Print button
+        "colvis"     
+    ]
+});
 
 
 
-  
+// $('#rlist').DataTable({
+//       "paging": true,
+//       "lengthChange": false,
+//       "searching": false,
+//       "ordering": true,
+//       "info": true,
+//       "autoWidth": false,
+//       "responsive": true,
+//     });
 
 
   
@@ -125,7 +163,7 @@ $('#rlist').DataTable();
 
 
 
-  $('#cc_route_id').on('input', function() {
+$('#cc_route_id').on('input', function() {
     var searchTerm = $(this).val();
     console.log(searchTerm);
     // AJAX request to fetch information from CodeIgniter
@@ -135,16 +173,55 @@ $('#rlist').DataTable();
       data: { id: searchTerm },
       dataType: 'json',
       success: function(response) {
-        console.log(response);
+       console.log(response);
         // Update the input fields with the response values
         $('#main_boarding').val(response.main_boarding);
         $('#total_fare').val(response.total_fare);
         $('#final_destination').val(response.final_destination);
-        console.log(response.company_id);
+       // console.log(response.company_id);
         $('#company_id').val(response.company_id);
         
       },
       error: function(xhr, status, error) {
+        // Handle any errors that occurred during the AJAX request
+        console.error(error);
+      }
+    });
+  });
+
+
+
+
+
+  $('#tcc_route_id').on('input', function() {
+    var searchTerm = $(this).val();
+    console.log(searchTerm);
+    // AJAX request to fetch information from CodeIgniter
+    $.ajax({
+      url: 'coach_info',
+      method: 'GET',
+      data: { id: searchTerm },
+      dataType: 'json',
+      success: function(response) {
+       console.log(response);
+        // Update the input fields with the response values
+        $('#coach_type').val(response.coach_type);
+        $('#vehicle_number').val(response.vehicle_number);
+        $('#supervisor_no').val(response.supervisor_no);
+        $('#seat_layout').val(response.seat_layout);
+        $('#departure').val(response.departure);
+        $('#arrival').val(response.arrival);
+        $('#main_boarding').val(response.main_boarding);
+       
+        $('#final_destination').val(response.final_destination);
+        $('#total_fare').val(response.total_fare);
+
+       // console.log(response.company_id);
+        
+      },
+      error: function(xhr, status, error) {
+        $('#vehicle_number').val("NO COACH WAS FOUND WITH THE ID");
+
         // Handle any errors that occurred during the AJAX request
         console.error(error);
       }

@@ -66,7 +66,7 @@
                                         <input type="number" name="fare[]" class="form-control" value="<?php echo $fare; ?>">
                                     </div>
                                     <div class="col-4">
-                                        <select name="destination_type[]" class="form-select" aria-label="Select an option">
+                                        <select name="destination_type[]" class="form-control" aria-label="Select an option">
                                             <option value="0" <?php if ($destinationType == 0) echo "selected"; ?>>Main Boarding Point</option>
                                             <option value="2" <?php if ($destinationType == 2) echo "selected"; ?>>Boarding Point</option>
                                             <option value="3" <?php if ($destinationType == 3) echo "selected"; ?>>Dropping Point</option>

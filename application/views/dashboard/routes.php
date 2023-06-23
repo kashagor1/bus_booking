@@ -53,7 +53,7 @@
                                 <input type="number" name="fare[]" class="form-control" required>
                             </div>
                             <div class="col-3">
-                                <select name="destination_type[]" class="form-select" aria-label="Select an option" required>
+                                <select name="destination_type[]" class="form-control" aria-label="Select an option" required>
                                     <option selected>Select Destination Type</option>
                                     <option value="0">Main Boarding Point</option>
                                     <option value="2">Boarding Point</option>

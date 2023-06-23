@@ -63,6 +63,18 @@ class Coach extends CI_Controller
       redirect(base_url('admin'));
     }
   }
+  public function coach_info(){
+    if ($this->session->userdata['username']) {
+      
+      $id = $this->input->GET('id');
+     
+        $data =$this->Coaach->get_info($id);
+        echo json_encode($data);
+      
+    } else {
+      redirect(base_url('admin'));
+    }
+  }
 
   public function update_coach()
   {
