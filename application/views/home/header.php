@@ -11,6 +11,9 @@
         integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+        <link rel="stylesheet" href="<?PHP ECHO BASE_URL();?>ASSETS/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="<?PHP ECHO BASE_URL();?>ASSETS/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="<?PHP ECHO BASE_URL();?>ASSETS/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 
    <style>
         footer.footer.mt-auto.py-3.bg-body-tertiary {
@@ -99,6 +102,10 @@
 .custom-input {
   padding-right: 16px; /* Add some padding to make room for the date value */
 }
+ul {  
+list-style-type: none;  
+ 
+}  
 
 
     </style>

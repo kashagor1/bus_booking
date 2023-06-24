@@ -16,7 +16,7 @@
                     <div class="card px-3">
                         <div class="card-body">
                             <div class="row">
-                                <form action="search.php" method="get" class="my-form ">
+                                <form action="search" method="get" class="my-form ">
                                     <div class="col-md-3">
                                         <div class="row">
                                             <div class="col-2 d-flex align-items-center">
