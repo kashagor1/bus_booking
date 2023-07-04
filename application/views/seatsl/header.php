@@ -16,27 +16,6 @@
   <link rel="stylesheet" href="<?PHP ECHO BASE_URL();?>ASSETS/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 
    <style>
-
-        
-.card.px-3 {
-    margin-top: -4.5rem;
-}
-.custom-input::-webkit-inner-spin-button,
-.custom-input::-webkit-calendar-picker-indicator {
-  display: none;
-  -webkit-appearance: none;
-}
-
-.custom-input {
-  padding-right: 16px; /* Add some padding to make room for the date value */
-}
-ul {  
-list-style-type: none;  
- 
-}  
-
-
-    
         footer.footer.mt-auto.py-3.bg-body-tertiary {
             background: gray !important;
         }
@@ -140,7 +119,7 @@ table {
     vertical-align: middle;
     /* width: 20%; */
   }
-  .seat {
+  button {
     width: 100%;
     height: 2.5rem;
     margin: 5px;
@@ -157,17 +136,17 @@ table {
     border-radius: 5px;
     transition: all 0.3s ease;
   }
-  .seat.available:hover {
+  button.available:hover {
     background-color: #bfbfbf;
     color: white;
     transform: scale(1.1);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   }
-  .seat.selected {
+  button.selected {
     background-color: #8bc34a;
     color: white;
   }
-  .seat.unavailable {
+  button.unavailable {
     background-color: #444;
     color: white;
     cursor: not-allowed;
@@ -225,133 +204,9 @@ button[type="submit"] {
   cursor: pointer;
 }
 
-footer.footer.mt-auto.py-3.bg-body-tertiary {
-            background: gray !important;
-        }
 
-        span.text-body-secondary {
-            color: white !important;
-        }
-
-        .section-with-background {
-            background-image: url('https://img.freepik.com/free-vector/flat-background-world-tourism-day-celebration_23-2149582530.jpg?w=2000');
-            background-size: cover;
-            background-position: center;
-            box-shadow: 0 2px 4px rgba(0, 0, 1, 0.2);
-            filter: contrast(125%); /* Adjust the contrast percentage as desired */
-
-        }
-
-        p.col-md-8.fs-4 {
-            color: #e7ff35;
-            font-weight: 600;
-
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Customize the shadow values as desired */
-
-        }
-
-        h1.display-5.fw-bold {
-            color: #ffc107;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Customize the shadow values as desired */
-
-        }
-
-        .sicon {
-            font-size: 1.5rem;
-        }
-
-        .custom-input {
-            border: none;
-            border-bottom: 1px solid lightgray;
-            transition: border-bottom-color 0.3s ease-in-out;
-            outline: none;
-        }
-
-        .custom-input:focus {
-            border-bottom-color: blue;
-        }
-
-        .flex-fill.form_header {
-            font-size: 1rem;
-            font-weight: 600;
-            color: gray;
-            text-transform: capitalize;
-        }
-
-        .my-form {
-            display: contents;
-        }
-
-        .b_submit_button {
-    font-weight: 600;
-     padding: 1rem!important; 
-    font-size: 23px;
-    background-color: #ffc107!important;
-    color: white!important;
-    height: 4rem
-}
-        #search-results {
-            max-height: 50px;
-            /* Set a fixed height */
-            overflow-y: auto;
-            /* Enable vertical scrolling if necessary */
-        }
-
-        footer.container {
-            width: auto;
-            max-width: 680px;
-            padding: 0 15px;
-        }
-        
-        button#checkoutBtn {
-    width: 100%;
-    border-radius: 30px;
-    color: white;
-    font-weight: 600;
-    background: teal;
-}
   </style>
 </head>
 
 <body>
-    
-
-
-<main>
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container">
-    <a class="navbar-brand" href="#">NewBus</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" href="http://localhost/newbus/">Home</a>
-        </li>
-        <?php if ($isLoggedin==true): ?>
-          <li class="nav-item">
-          <a class="nav-link" href="http://localhost/newbus/tickets/">Tickets</a>
-        </li>  <li class="nav-item">
-          <a class="nav-link" href="http://localhost/newbus/profile/">Profile</a>
-        </li>
-        <?php endif;?>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="fa-solid fa-circle-user"></i>
-          </a>
-          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-          <?php if ($isLoggedin==false): ?>
-
-            <li><a class="dropdown-item" href="http://localhost/newbus/login#login">Login</a></li>
-            <li><a class="dropdown-item" href="http://localhost/newbus/login#register">Register</a></li>
-            <?php else:?>
-                <li><a class="dropdown-item" href="http://localhost/newbus/logout">Log Out</a></li>
-            <?php endif;?>
-          </ul>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
+<main class="container">

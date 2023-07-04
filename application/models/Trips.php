@@ -34,7 +34,7 @@ class Trips extends CI_Model
         $this->db->select('*');
         $this->db->from('coach');
         $this->db->join('company', 'coach.company_id = company.company_id');
-        $this->db->where('coach.coach_id', 6);
+        $this->db->where('coach.coach_id', $cid);
         $query = $this->db->get();
         $data = array();
 
@@ -58,20 +58,32 @@ class Trips extends CI_Model
     }
     public function get_seats_info($data)
     {
-        $qq = "SELECT * FROM seats WHERE coach=$data[cid] ORDER BY seat_id ASC";
+        $qq = "SELECT * FROM coach WHERE coach_id=$data[cid] "; 
 
-        $results = $this->db->query($qq);
+        $results = $this->db->query($qq)->row();
         $seats = array();
-        foreach ($results->result() as $row) {
-
-            $st = $row->status;
-            $stn = $row->seat_no;
+        $rr = $results->seat_row;
+        $col = $results->seat_column;
+        for ($i=1; $i <= $rr ; $i++) { 
+            
+            for ($j=1; $j <= $col ; $j++) { 
+               $stn = chr(64+$i).$j;
+                
+               //echo $stn;
+                
+          //  $st = $row->status;
+            // $stn = $row->seat_no;
             $seat = array(
                 'seat_no' => $stn
             );
-            if ($st == "booked") {
-                $qqr = "SELECT * FROM tickets WHERE seat_no='$stn' AND trip_id=$data[id]";
-                $seat_rs = $this->db->query($qqr)->row();
+            $qqr = "SELECT * FROM tickets WHERE seat_no='$stn' AND trip_id=$data[id]";
+            $seat_rs = $this->db->query($qqr)->row();
+
+            // echo $qqr."<br>";
+            // var_dump($seat_rs); 
+            // echo "<br>";
+            if ($seat_rs != NULL) {
+            
                 $seat['pnr'] = $seat_rs->pnr;
                 $seat['source'] = $seat_rs->source;
                 $seat['destination'] = $seat_rs->destination;
@@ -90,7 +102,7 @@ class Trips extends CI_Model
             }
             $seats[]=$seat;
 
-
+        }
         }
 
         return $seats;

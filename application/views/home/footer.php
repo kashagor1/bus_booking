@@ -1,9 +1,10 @@
+</main>
+
 <footer class="footer mt-auto py-3 bg-body-tertiary">
   <div class="container">
     <span class="text-body-secondary">© 2023 | All Rights Resevered by ka.shagor</span>
   </div>
 </footer>
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
 <script src="<?PHP ECHO BASE_URL();?>ASSETS/plugins/datatables/jquery.dataTables.min.js"></script>
@@ -19,7 +20,45 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
   integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+
+
 <script>
+  // JavaScript code to handle button click event
+ // JavaScript code to handle button click event
+var buttons = document.querySelectorAll(".btnSubmit");
+buttons.forEach(function(button) {
+  button.addEventListener("click", function(event) {
+    // Retrieve the data from data attributes
+    var params = this.dataset.params;
+
+    // Create a hidden input field to store the parameters
+    var input = document.createElement("input");
+    input.type = "hidden";
+    input.name = "params";
+    input.value = params;
+
+    // Create a form and append the input field
+    var form = document.createElement("form");
+    form.method = "post";
+    form.action = "seatselection";
+    form.appendChild(input);
+
+    // Append the form to the document body
+    document.body.appendChild(form);
+
+    // Submit the form
+    form.submit();
+  });
+});
+
+</script>
+
+<script>
+
+
+
+
+  
 //  $(document).ready(function() {
 //       // Initialize DataTable
 //       var table = $('#busTable').DataTable({
@@ -61,6 +100,7 @@
 $(document).ready(function() {
     var table = $('#busTable').DataTable({
         "lengthMenu": [ -1 ],
+        "order": [[1, "desc"]],
         "paging": false,
         "searching": true,
         "language": {
@@ -102,12 +142,7 @@ $(document).ready(function() {
 
 </script>
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    flatpickr('#date-input', {
-      // Options and customization can be added here
-    });
-  });
-
+ 
 
   // Sample JSON data for search results
   function setupLiveSearch(inputId, resultsId) {
@@ -157,23 +192,43 @@ $(document).ready(function() {
   setupLiveSearch("destination-input", "destination-search-results");
 
 
-
-  // Get the current date
-  var currentDate = new Date();
-
-  // Calculate the date for 7 days from now
-  var next7Days = new Date();
-  next7Days.setDate(currentDate.getDate() + 7);
-
-  // Format the dates in YYYY-MM-DD format
-  var currentDateFormatted = currentDate.toISOString().split('T')[0];
-  var next7DaysFormatted = next7Days.toISOString().split('T')[0];
-
-  // Set the minimum and maximum date values for the date input
-  document.getElementById("date-input").setAttribute("min", currentDateFormatted);
-  document.getElementById("date-input").setAttribute("max", next7DaysFormatted);
-
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <!-- <script>
+    flatpickr("#date-input", {
+      minDate: null,
+      maxDate: new Date().fp_incr(7),
+      disable: [
+        function(date) {
+          // Disable dates in the past
+          return date < new Date();
+        },
+        function(date) {
+          // Disable dates more than 7 days in the future
+          return date > new Date().fp_incr(7);
+        }
+      ]
+    });
+</script> -->
+<script>
+  // Get the current date in GMT+6
+  var currentDate = new Date(); // Get the current date
+  // currentDate.setHours(currentDate.getHours() - 6); // Adjust for GMT+6
+  // console.log(currentDate);
+
+  flatpickr("#date-input", {
+    minDate: currentDate,
+    maxDate: currentDate.fp_incr(7),
+    disable: [
+      function(date) {
+        // Disable dates more than 7 days in the future
+        return date > currentDate.fp_incr(7);
+      }
+    ]
+  });
+</script>
+
 
 </body>
 

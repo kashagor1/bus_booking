@@ -95,7 +95,7 @@ class Routes extends CI_Controller
 
       }
     }
-    redirect(base_url('dashboard/list_route'));
+    redirect(base_url('dashboard/list_route2'));
 
 
   }
@@ -103,14 +103,14 @@ class Routes extends CI_Controller
   {
     $id = $this->input->get('id');
     $this->Route->del_route($id);
-    redirect(base_url('dashboard/list_route'));
+    redirect(base_url('dashboard/list_route2'));
 
   }
   public function del_w_route()
   {
     $id = $this->input->get('id');
     $this->Route->del_w_route($id);
-    redirect(base_url('dashboard/list_route'));
+    redirect(base_url('dashboard/list_route2'));
 
   }
 

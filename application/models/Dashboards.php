@@ -62,9 +62,9 @@ class Dashboards extends CI_Model
     //var_dump($data);die;
     $oname = str_replace("'","''",$data['main_boarding']);
     $dname = str_replace("'","''",$data['final_destination']);
-
-    $qq = "INSERT INTO `coach`(`coach_id`, `route_id`, `coach_type`, `vehicle_number`, `supervisor_no`, `seat_layout`, `departure`, `arrival`, `main_boarding`, `final_destination`, `total_fare`) VALUES
-     (NULL,'$data[cc_route_id]','$data[coach_type]','$data[vehicle_number]','$data[supervisor_no]','$data[seat_layout]','$data[departure]','$data[arrival]','$oname','$dname','$data[total_fare]')";
+    $tseats = $data['seat_layout_row']*$data['seat_layout_column'];
+    $qq = "INSERT INTO `coach`(`coach_id`, `company_id`, `route_id`, `coach_type`, `vehicle_number`, `supervisor_no`, `seat_layout`, `seat_row`, `seat_column`, `departure`, `arrival`, `main_boarding`, `final_destination`, `total_fare`) VALUES
+     (NULL,'$data[company_id]','$data[cc_route_id]','$data[coach_type]','$data[vehicle_number]','$data[supervisor_no]','$tseats','$data[seat_layout_row]','$data[seat_layout_column]','$data[departure]','$data[arrival]','$oname','$dname','$data[total_fare]')";
 
      if($this->db->query($qq)){
       return true;

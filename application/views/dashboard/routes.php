@@ -11,7 +11,7 @@
                     <div class="col-6">
                         <label for="inputAddress" class="form-label">Route ID</label>
                         <input type="text" class="form-control" id="inputAddress" placeholder="1" name="route_id" value="<?php echo $route_id+1;?>"
-                            required>
+                            required readonly>
                     </div>
                     <div class="col-6">
                         <label for="inputAddress2" class="form-label">Company ID</label>

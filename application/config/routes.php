@@ -56,6 +56,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 //$route['default_controller'] = 'welcome';
 $route['default_controller'] = 'home';
 $route['search'] = 'home/search';
+$route['seatselection'] = 'home/seatselection';
+$route['fillinfo'] = 'home/fillinfo';
+$route['midform'] = 'home/midform';
+$route['login'] = 'home/login';
+$route['logout'] = 'home/logout';
+$route['newreg'] = 'home/newreg';
+$route['slogin'] = 'home/slogin';
+$route['register'] = 'home/register';
+$route['payment'] = 'home/payment';
+$route['process_payment'] = 'home/process_payment';
+
+$route['profile'] = 'personal/profile';
+$route['tickets'] = 'personal/tickets';
+$route['tickets/print'] = 'personal/print_ticket';
 
 
 

@@ -171,7 +171,7 @@
 
           if ($result != 0) {
             foreach ($result as $trip) {
-
+             // var_dump($trip);die;
               ?>
 
 
@@ -183,10 +183,10 @@
                   <ul>
                     <li class="op_name shohoz_green">
                       <p style="font-weight:600;margin-bottom: 0px;">
-                        <?php echo $trip[0]['company_name']; ?>
+                        <?php echo $trip['company_name']; ?>
                         <span style="font-weight:400">
                           (
-                          <?php echo $trip[0]['coach_type']; ?>
+                          <?php echo $trip['coach_type']; ?>
                           )
                         </span>
                       </p>
@@ -212,10 +212,10 @@
 
                     </li>
                     <li><b style="color:#757A7E;">Starting Point:</b>
-                      <?php echo $trip[0]['main_boarding']; ?>
+                      <?php echo $trip['main_boarding']; ?>
                     </li>
                     <li><b style="color:#757A7E;">Ending Point:</b>
-                      <?php echo $trip[0]['final_destination']; ?>
+                      <?php echo $trip['final_destination']; ?>
                     </li>
                     <!--//// For Eid  /////-->
                     <!--//// For Eid  /////-->
@@ -225,15 +225,21 @@
 
                 </td>
                 <td class="tbl_col3 border-fix-seat" data-title="Dep. Time">
-                  <?php echo $trip[0]['departure']; ?> <br>
+                  <?php
+                  $dTime = date('h:i A', strtotime($trip['departure']));
+
+                  echo $dTime; ?> <br>
 
                 </td>
                 <td class="tbl_col4 border-fix-seat" data-title="Arr. Time">
-                  <?php echo $trip[0]['arrival']; ?>
+                  <?php
+                                    $aTime = date('h:i A', strtotime($trip['arrival']));
+
+                   echo $aTime; ?>
                 </td>
                 <td class="tbl_col5 border-fix-seat shohoz_green" data-title="Seats Available">
                   <?php
-                  echo $trip[0]['seat_layout'] - $trip['av_seats'];
+                  echo $trip['seat_layout'] - $trip['av_seats'];
 
                   ?>
                 </td>
@@ -266,11 +272,19 @@
                   </ul>
 
                   <div class="clearfix"></div>
-
-                  <button type="submit" id="10650760" triproute="54918354" operatorid="129" tocity="Rangpur"
-                    class="btn btn-danger btn-sm btnSubmit seatsLayout">
-                    View Seats
-
+                     
+                  <button type="button" class="btn btn-danger btn-sm btnSubmit seatsLayout" data-params='
+                  {"origin":"<?php echo base64_encode($_GET['origin']);?>",
+                    "destination":"<?php echo base64_encode($_GET['destination']); ?>",
+                    "coach_id":"<?php echo $trip['coach_id']?>",
+                    "route_id":"<?php echo $trip['route_id']?>",
+                    "fare":"<?php echo $trip['final_fare'];?>",
+                    "date":"<?php echo $_GET['date']?>",
+                    "trip_id":"<?php echo $trip['trip_id']?>"}
+                    
+                    '>
+  View Seats
+</button>
                 </td>
               </tr>
 

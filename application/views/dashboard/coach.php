@@ -34,19 +34,24 @@
                         <input type="text" class="form-control" id="supervison_no" placeholder="01711111111"
                             name="supervisor_no" required>
                     </div>
-                    <div class="col-4">
-                        <label for="seat_layout" class="form-label">Seat Layout </label>
-                        <input type="text" class="form-control" id="seat_layout" placeholder="36/40/55"
-                            name="seat_layout" required>
+                    <div class="col-3">
+                        <label for="seat_layout_row" class="form-label">Seat Layout Row </label>
+                        <input type="text" class="form-control" id="seat_layout_row" placeholder="9/10/11"
+                            name="seat_layout_row" required>
                     </div>
-                    <div class="col-4">
+                    <div class="col-3">
+                        <label for="seat_layout_column" class="form-label">Seat Layout Column</label>
+                        <input type="text" class="form-control" id="seat_layout_column" placeholder="3/4/5"
+                            name="seat_layout_column" required>
+                    </div>
+                    <div class="col-3">
                         <label for="departure" class="form-label">Departure </label>
-                        <input type="text" class="form-control" id="departure" placeholder="12"
+                        <input type="time" class="form-control" id="departure" placeholder="12"
                             name="departure" required>
                     </div>
-                    <div class="col-4">
+                    <div class="col-3">
                         <label for="arrival" class="form-label">Arrival </label>
-                        <input type="text" class="form-control" id="arrival" placeholder="12"
+                        <input type="time" class="form-control" id="arrival" placeholder="12"
                             name="arrival" required>
                     </div>
 

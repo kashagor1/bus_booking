@@ -74,9 +74,9 @@
                                                         Date
                                                     </div>
                                                     <div class="flex-fill">
-                                                    <input type="text" class="custom-input" name="date" id="date-input">
+  <input type="text" class="custom-input" name="date" id="date-input">
+</div>
 
-                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -117,3 +117,4 @@
             
         </div>
     </main>
+ 

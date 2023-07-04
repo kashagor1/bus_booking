@@ -58,8 +58,17 @@
                                 <td><?php echo $data['route_id']; ?></td>
                                 <td><?php echo $data['coach_type']; ?></td>
                                 <td><?php echo $data['vehicle_number']; ?></td>
-                                <td><?php echo $data['departure']; ?></td>
-                                <td><?php echo $data['arrival']; ?></td>
+                                <td><?php
+                                
+                                $formattedTime = date('g:i A', strtotime($data['departure']));
+
+                                echo $formattedTime; ?></td>
+                                
+                                <td><?php
+                                
+                                $formattedTime = date('g:i A', strtotime($data['arrival']));
+
+                                echo $formattedTime; ?></td>
                                 <td><?php echo $data['main_boarding']; ?></td>
                                 <td><?php echo $data['final_destination']; ?></td>
                                 <td><?php echo $data['total_fare']; ?></td>
