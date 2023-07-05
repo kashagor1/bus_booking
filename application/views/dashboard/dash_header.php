@@ -301,12 +301,35 @@
                 <li class="nav-item">
                   <a href="<?php echo base_url() ?>dashboard/list_trip" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Trip List</p>
+                    <p> Trip List</p>
                   </a>
                 </li>
-
+                <li class="nav-item">
+                  <a href="<?php echo base_url() ?>dashboard/clist_trip" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Cancelled Trip List</p>
+                  </a>
+                </li>
               </ul>
             </li>
+            <li class="nav-item">
+              <a href="<?php echo base_url() ?>dashboard/ticket" class="nav-link">
+              <i class='fas fa-ticket-alt'></i>
+                            <p>
+                  Print Ticket
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="<?php echo base_url() ?>dashboard/refund" class="nav-link">
+              <i class='fas fa-ticket-alt'></i>
+                            <p>
+                  Refund Tickets
+                </p>
+              </a>
+            </li>
+            
+
 
             <li class="nav-item">
               <a href="<?php echo base_url() ?>dashboard/company" class="nav-link">

@@ -9,6 +9,57 @@ class Person extends CI_Model
         $this->db = $this->load->database('default', TRUE);
 
     }
+
+    public function make_refund($pnr){
+        $qq = "UPDATE `refundlist` SET status='1' where pnr='$pnr'";
+        $this->db->query($qq);
+        return true;
+    }
+
+    public function get_refundlist($user){
+        $q = "SELECT * FROM `refundlist` WHERE username='$user'";
+        $res = $this->db->query($q)->result_array();
+        return $res;
+    } 
+    public function get_all_refundlist(){
+        $q = "SELECT * FROM `refundlist` where status='0' ORDER BY id DESC";
+        $res = $this->db->query($q)->result_array();
+        return $res;
+    }   
+    public function cancel_ticket($data){
+
+        $qq = "SELECT * FROM tickets WHERE tickets.pnr='$data[pnr]' AND tickets.username='$data[user]'";
+        $ata = $this->db->query($qq)->result_array();
+        if( count($ata)==0){
+            return false;
+        }
+        $tinfo = $ata[0];
+        $trip_id = $tinfo['trip_id'];
+        
+        $fare = count($ata)*$tinfo['fare'];
+        $origin = $tinfo['source'];
+        $destination = $tinfo['destination'];
+        $b_date = $tinfo['b_date'];
+        $seats = "";
+        foreach ($ata as $seat) {
+            $seats .=$seat['seat_no'].",";
+        }
+        $seats = rtrim($seats, ',');
+
+
+        $uq = "SELECT * FROM `nusers` where username='$data[user]'";
+        $row = $this->db->query($uq)->row();
+
+        $rfli = "INSERT INTO `refundlist`(`id`,`pnr`, `trip_id`, `username`,`seats`, `amount`, `origin`, `destination`, `j_date`, `status`, `bkash`) VALUES
+         (NULL,'$data[pnr]','$trip_id','$data[user]','$seats','$fare','$origin','$destination','$b_date','0','$row->phone')";
+        $delT=  "DELETE FROM `tickets` WHERE `pnr`='$data[pnr]'";
+       // echo $rfli;die;
+        if($this->db->query($rfli) && $this->db->query($delT)){
+            return true;
+        }else{
+            return false;
+        }
+    }
     public function get_tickets($user)
     {
         // echo $user;die;

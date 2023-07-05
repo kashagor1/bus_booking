@@ -10,7 +10,7 @@ class Coach extends CI_Controller
   }
   public function index()
   {
-    if ($this->session->userdata['username']) {
+    if ($this->session->userdata['username'] && $this->session->userdata['role_id'] ==='111') {
 
 
       $data = array();
@@ -31,7 +31,7 @@ class Coach extends CI_Controller
 
   public function list_coach()
   {
-    if ($this->session->userdata['username']) {
+    if ($this->session->userdata['username'] && $this->session->userdata['role_id'] ==='111') {
       $data = array();
       $data['title'] = "Coach Lists";
       $data['headline'] = "Manage Coaches";
@@ -49,7 +49,7 @@ class Coach extends CI_Controller
 
   public function view_coach_info()
   {
-    if ($this->session->userdata['username']) {
+    if ($this->session->userdata['username'] && $this->session->userdata['role_id'] ==='111') {
       $data = array();
       $data['title'] = "Edit Coach";
       $data['headline'] = "Coach";
@@ -64,7 +64,7 @@ class Coach extends CI_Controller
     }
   }
   public function coach_info(){
-    if ($this->session->userdata['username']) {
+    if ($this->session->userdata['username'] && $this->session->userdata['role_id'] ==='111') {
       
       $id = $this->input->GET('id');
      
@@ -78,7 +78,7 @@ class Coach extends CI_Controller
 
   public function update_coach()
   {
-    if ($this->session->userdata['username']) {
+    if ($this->session->userdata['username'] && $this->session->userdata['role_id'] ==='111') {
       $data = $this->input->post();
 
       if ($this->Coaach->update_coach($data)) {
@@ -91,7 +91,7 @@ class Coach extends CI_Controller
   }
   public function delete_coach()
   {
-    if ($this->session->userdata['username']) {
+    if ($this->session->userdata['username'] && $this->session->userdata['role_id'] ==='111') {
       $data = $this->input->get('id');
 
       if ($this->Coaach->delete_coach($data)) {

@@ -10,6 +10,8 @@
         <div class="col-12 d-flex justify-content-center py-3">
 
                 <a href="http://localhost/newbus/dashboard/print_trip_info?id=<?php echo $tr_id;?>&cid=<?php echo $co_id;?>"><button class="btn btn-info">Download Trip List</button></a>
+                <a href="<?php echo base_url()."dashboard/cancel_trip?id=".$tr_id."&cid=".$co_id;?>">   <button class="btn btn-danger ml-3">Cancel</button></a>
+
             </div>
             <div class="col-1"></div>
             <div class="col-10">

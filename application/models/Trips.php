@@ -8,6 +8,7 @@ class Trips extends CI_Model
         parent::__construct();
         $this->db = $this->load->database('default', TRUE);
 
+
     }
 
     public function get_trip_number()
@@ -107,10 +108,59 @@ class Trips extends CI_Model
 
         return $seats;
     }
-    public function get_trip_list()
+
+
+    public function cancel_trip($id){
+        $qq = "SELECT * FROM tickets where trip_id='$id'";
+        $rows = $this->db->query($qq)->result_array();
+        foreach($rows as $row){
+            $this->cancel_ticket($row['pnr']);
+        }
+        $qq = "UPDATE trips SET trip_status='0' WHERE trip_id='$id'";
+        $this->db->query($qq);
+    }
+
+    public function cancel_ticket($pnr){
+
+        $qq = "SELECT * FROM tickets WHERE tickets.pnr='$pnr'";
+        $ata = $this->db->query($qq)->result_array();
+        if( count($ata)==0){
+            return false;
+        }
+        $tinfo = $ata[0];
+        $trip_id = $tinfo['trip_id'];
+        
+        $fare = count($ata)*$tinfo['fare'];
+        $origin = $tinfo['source'];
+        $destination = $tinfo['destination'];
+        $b_date = $tinfo['b_date'];
+        $seats = "";
+        $username = $tinfo['username'];
+        foreach ($ata as $seat) {
+            $seats .=$seat['seat_no'].",";
+        }
+        $seats = rtrim($seats, ',');
+
+
+        $uq = "SELECT * FROM `nusers` where username='$username'";
+        $row = $this->db->query($uq)->row();
+
+        $rfli = "INSERT INTO `refundlist`(`id`,`pnr`, `trip_id`, `username`,`seats`, `amount`, `origin`, `destination`, `j_date`, `status`, `bkash`) VALUES
+         (NULL,'$pnr','$trip_id','$username','$seats','$fare','$origin','$destination','$b_date','0','$row->phone')";
+        $delT=  "DELETE FROM `tickets` WHERE `pnr`='$pnr'";
+       // echo $rfli;die;
+        if($this->db->query($rfli) && $this->db->query($delT)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+   
+    public function get_trip_list($st)
     {
 
-        $qq = "SELECT * FROM trips";
+        $qq = "SELECT * FROM trips where trip_status='$st' order by trip_id DESC";
         $res = $this->db->query($qq);
         if ($res->num_rows() > 0) {
             $trips = array();

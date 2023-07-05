@@ -333,7 +333,11 @@ footer.footer.mt-auto.py-3.bg-body-tertiary {
         <?php if ($isLoggedin==true): ?>
           <li class="nav-item">
           <a class="nav-link" href="http://localhost/newbus/tickets/">Tickets</a>
-        </li>  <li class="nav-item">
+        </li> 
+        <li class="nav-item">
+          <a class="nav-link" href="http://localhost/newbus/refund">Refunded Tickets</a>
+        </li>
+         <li class="nav-item">
           <a class="nav-link" href="http://localhost/newbus/profile/">Profile</a>
         </li>
         <?php endif;?>

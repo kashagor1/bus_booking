@@ -69,7 +69,9 @@ $route['process_payment'] = 'home/process_payment';
 
 $route['profile'] = 'personal/profile';
 $route['tickets'] = 'personal/tickets';
+$route['refund'] = 'personal/refund';
 $route['tickets/print'] = 'personal/print_ticket';
+$route['tickets/cancel_ticket'] = 'personal/cancel_ticket';
 
 
 
@@ -102,10 +104,18 @@ $route['dashboard/route_edit_info'] = 'routes/route_edit';
 $route['dashboard/update_route_info'] = 'routes/up_route';
 $route['dashboard/update_route'] = 'routes/update_route';
 
+/* Tickets */
+$route['dashboard/ticket'] = 'dashboard/ticket';
+$route['dashboard/refund'] = 'dashboard/refund';
+$route['dashboard/sendref'] = 'dashboard/sendref';
+
+
 
 $route['dashboard/trip'] = 'trip';
 $route['dashboard/create_trip'] = 'trip/create_trip';
+$route['dashboard/cancel_trip'] = 'trip/cancel_trip';
 $route['dashboard/list_trip'] = 'trip/list_trip';
+$route['dashboard/clist_trip'] = 'trip/clist_trip';
 $route['dashboard/view_trip_info'] = 'trip/view_trip_info';
 $route['dashboard/print_trip_info'] = 'trip/print_trip_info';
 

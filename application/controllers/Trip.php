@@ -10,7 +10,7 @@ class Trip extends CI_Controller
     }
     public function index()
     {
-        if ($this->session->userdata['username']) {
+        if ($this->session->userdata['username'] && $this->session->userdata['role_id'] === '111') {
 
 
             $data = array();
@@ -33,7 +33,7 @@ class Trip extends CI_Controller
     public function create_trip()
     {
 
-        if ($this->session->userdata['username']) {
+        if ($this->session->userdata['username'] && $this->session->userdata['role_id'] === '111') {
             $data = $this->input->post();
             $this->Trips->create_trip($data);
             redirect(base_url('dashboard/trip'));
@@ -43,15 +43,29 @@ class Trip extends CI_Controller
 
         }
     }
+
+    public function cancel_trip()
+    {
+        if ($this->session->userdata['username'] && $this->session->userdata['role_id'] === '111') {
+            $trip = $this->input->get('id');
+
+            $this->Trips->cancel_trip($trip);
+            redirect(base_url('dashboard/list_trip'));
+        } else {
+            redirect(base_url('admin'));
+
+        }
+
+    }
     public function list_trip()
     {
 
-        if ($this->session->userdata['username']) {
+        if ($this->session->userdata['username'] && $this->session->userdata['role_id'] === '111') {
             $data = array();
             $data['title'] = "Lists Trip";
             $data['headline'] = "Trips";
 
-            $data['trips'] = $this->Trips->get_trip_list();
+            $data['trips'] = $this->Trips->get_trip_list(1);
             //die;
 
             $this->load->view('dashboard/dash_header', $data);
@@ -63,15 +77,34 @@ class Trip extends CI_Controller
 
         }
     }
+    public function clist_trip()
+    {
 
+        if ($this->session->userdata['username'] && $this->session->userdata['role_id'] === '111') {
+            $data = array();
+            $data['title'] = "Cancelled  Trips";
+            $data['headline'] = "Trips";
+
+            $data['trips'] = $this->Trips->get_trip_list(0);
+            //die;
+
+            $this->load->view('dashboard/dash_header', $data);
+            $this->load->view('dashboard/ctrip_list', $data);
+            $this->load->view('dashboard/dash_footer');
+        } else {
+
+            redirect(base_url('admin'));
+
+        }
+    }
     public function view_trip_info()
     {
-        if ($this->session->userdata['username']) {
+        if ($this->session->userdata['username'] && $this->session->userdata['role_id'] === '111') {
             $data = array();
             $data['title'] = "Trip Info";
             $data['headline'] = "Trips";
-            $data['tr_id'] =$this->input->get('id');
-            $data['co_id'] =$this->input->get('cid');
+            $data['tr_id'] = $this->input->get('id');
+            $data['co_id'] = $this->input->get('cid');
 
             $data['coach'] = $this->Trips->get_trip_info($this->input->get('cid'));
             $data['seats'] = $this->Trips->get_seats_info($this->input->get());
@@ -90,7 +123,7 @@ class Trip extends CI_Controller
     }
     public function print_trip_info()
     {
-        if ($this->session->userdata['username']) {
+        if ($this->session->userdata['username'] && $this->session->userdata['role_id'] === '111') {
 
             $data = array();
             $data['tirp_no'] = $this->input->get('id');
@@ -100,18 +133,18 @@ class Trip extends CI_Controller
             // var_dump($data['coach']);die;
             //die;
 
-          $html =  $this->load->view('dashboard/print_trip',$data,true);
+            $html = $this->load->view('dashboard/print_trip', $data, true);
 
-           
-		$this->load->library('pdf');
 
-		$dompdf =new Pdf();
-		$dompdf->loadHtml($html);
-        $dompdf->setPaper('A4', 'protrait');
+            $this->load->library('pdf');
 
-		$dompdf->render();
-		$dompdf->stream("Trip_List.pdf");
-   
+            $dompdf = new Pdf();
+            $dompdf->loadHtml($html);
+            $dompdf->setPaper('A4', 'protrait');
+
+            $dompdf->render();
+            $dompdf->stream("Trip_List.pdf");
+
 
 
         } else {
