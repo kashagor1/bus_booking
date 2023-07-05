@@ -54,7 +54,7 @@
                         </div>
                         <div class="col">
                             <a href="http://localhost/newbus/tickets/print?pnr=<?php echo $pnr; ?>"> <button
-                                    class="btn btn-primary">Print Ticket <?php                 echo  $dateDiff;?></button></a>
+                                    class="btn btn-primary">Print Ticket</button></a>
                             <?php if ($showCancelTicketButton): ?>
                                 <a href="http://localhost/newbus/tickets/cancel_ticket?pnr=<?php echo $pnr; ?>"><button
                                         class="btn btn-danger">Cancel Ticket</button></a>
