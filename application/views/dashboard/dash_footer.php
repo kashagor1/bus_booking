@@ -245,7 +245,7 @@ $('#cc_route_id').on('input', function() {
 
       var searchResults = [];
 
-      fetch('http://localhost/newbus/district')
+      fetch('http://newbus.kashagor.onlinedistrict')
                     .then(response => response.json())
                     .then(data => {
 

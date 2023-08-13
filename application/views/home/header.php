@@ -328,17 +328,17 @@ footer.footer.mt-auto.py-3.bg-body-tertiary {
     <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" href="http://localhost/newbus/">Home</a>
+          <a class="nav-link" href="http://newbus.kashagor.online">Home</a>
         </li>
         <?php if ($isLoggedin==true): ?>
           <li class="nav-item">
-          <a class="nav-link" href="http://localhost/newbus/tickets/">Tickets</a>
+          <a class="nav-link" href="http://newbus.kashagor.onlinetickets/">Tickets</a>
         </li> 
         <li class="nav-item">
-          <a class="nav-link" href="http://localhost/newbus/refund">Refunded Tickets</a>
+          <a class="nav-link" href="http://newbus.kashagor.onlinerefund">Refunded Tickets</a>
         </li>
          <li class="nav-item">
-          <a class="nav-link" href="http://localhost/newbus/profile/">Profile</a>
+          <a class="nav-link" href="http://newbus.kashagor.onlineprofile/">Profile</a>
         </li>
         <?php endif;?>
         <li class="nav-item dropdown">
@@ -348,10 +348,10 @@ footer.footer.mt-auto.py-3.bg-body-tertiary {
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
           <?php if ($isLoggedin==false): ?>
 
-            <li><a class="dropdown-item" href="http://localhost/newbus/login#login">Login</a></li>
-            <li><a class="dropdown-item" href="http://localhost/newbus/login#register">Register</a></li>
+            <li><a class="dropdown-item" href="http://newbus.kashagor.onlinelogin#login">Login</a></li>
+            <li><a class="dropdown-item" href="http://newbus.kashagor.onlinelogin#register">Register</a></li>
             <?php else:?>
-                <li><a class="dropdown-item" href="http://localhost/newbus/logout">Log Out</a></li>
+                <li><a class="dropdown-item" href="http://newbus.kashagor.onlinelogout">Log Out</a></li>
             <?php endif;?>
           </ul>
         </li>

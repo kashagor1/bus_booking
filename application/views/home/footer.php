@@ -178,7 +178,7 @@ $(document).ready(function() {
       }
 
       // Make an asynchronous request to fetch search results from the server
-      fetch('http://localhost/newbus/district')
+      fetch('http://newbus.kashagor.onlinedistrict')
         .then(response => response.json())
         .then(data => {
           searchResults.innerHTML = "";
