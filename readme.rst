@@ -64,5 +64,5 @@ This project is licensed under the MIT License. See the `LICENSE` file for more 
 Contact
 -------
 
-If you have any questions or need assistance, please contact the development team at busbooking@example.com.
+If you have any questions or need assistance, please contact the development team at admin@kashagor.online
 
