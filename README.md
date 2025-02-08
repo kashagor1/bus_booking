@@ -1,68 +1,117 @@
-# CodeIgniter 4 Application Starter
+# NewBus - Bus Booking System (CodeIgniter 4)
 
-## What is CodeIgniter?
+## 📌 Project Overview
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+The **NewBus - Bus Booking System** is a web-based application built using **CodeIgniter 4** that allows users to book bus tickets online within Bangladesh. The system provides functionalities for managing bus multiple bus company, routes, coach, trips (schedules), seat reservations, seat cancellation, payments and refunds.
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+## 🚀 Features
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+- **User Authentication** (Login & Registration)
+- **Bus Listings & Search**
+- **Seat Selection & Booking**
+- **Payment Integration**
+- **Admin Dashboard for Bus & Booking Management**
+- **Booking Confirmation & Ticket Generation**
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+## 🏗️ Tech Stack
 
-## Installation & updates
+- **Backend:** CodeIgniter 4 (PHP Framework)
+- **Frontend:** HTML, CSS, Bootstrap, JavaScript
+- **Database:** MySQL
+- **Authentication:** CodeIgniter Shield / Custom Auth System
+- **Payment Gateway:** Dummy GateWay but soon to any either Stripe/PayPal sandbox
+- **Deployment:** Apache/Nginx with PHP 8+
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+## 📂 Folder Structure
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+```
+/project-root
+│── app/           # Application logic (Controllers, Models, Views)
+│── public/        # Public assets (CSS, JS, Images)
+│── writable/      # Logs, cache, session files
+│── tests/         # PHPUnit tests
+│── .env           # Environment configuration
+│── composer.json  # PHP dependencies
+│── README.md      # Project documentation
+```
 
-## Setup
+## ⚙️ Installation Guide
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+### Prerequisites
 
-## Important Change with index.php
+- PHP 8+
+- MySQL Database
+- Composer
+- Apache/Nginx Server
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+### Step 1: Clone the Repository
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+```sh
+git clone https://github.com/kashagor1/bus_booking.git
+cd bus_booking
+```
 
-**Please** read the user guide for a better explanation of how CI4 works!
+### Step 2: Install Dependencies
 
-## Repository Management
+```sh
+composer install
+```
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+### Step 3: Configure `.env`
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+Rename `.env.example` to `.env` and update database settings:
 
-## Server Requirements
+```env
+CI_ENVIRONMENT = development
+app.baseURL = 'http://localhost/bus-booking/'
+database.default.hostname = localhost
+database.default.database = bus_booking
+database.default.username = root
+database.default.password = ''
+database.default.DBDriver = MySQLi
+```
 
-PHP version 8.1 or higher is required, with the following extensions installed:
+or can setup the db settings from app/Config/Database.php
 
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
+### Step 4: Run Database Migrations (Skip this step and move to 4.1 only if need db file)
 
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - If you are still using PHP 7.4 or 8.0, you should upgrade immediately.
-> - The end of life date for PHP 8.1 will be December 31, 2025.
+```sh
+php spark migrate
+```
 
-Additionally, make sure that the following extensions are enabled in your PHP:
+### Step 5: Setup Database (Only for newbies)
 
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+Get the database new_bus.sql file in public/db folder.
+
+### Step 6: Extract Asstets
+
+Extract the bus_booking/public/assets.zip file located in bus_booking/public folder.
+
+### Step 7: Start Development Server
+
+```sh
+php spark serve
+```
+
+Visit `http://localhost:8080` to access the system.
+Visit `http://localhost:8080/admin` to access the super adminpanel panel.
+username = admin@test.com
+password = 1234
+
+## 🛠️ Usage
+
+1. **Super Admin Panel**: Create Company, Routes, Coach and Trips.
+2. **User Panel**: Search and book available buses of different routes & companies. Cancel before 24 hours
+3. **Payment Gateway**: Dummy Payment Gateway for now but will integrate a sandbox system here very soon.
+
+## 📜 License
+
+This project is open-source and available under the **MIT License**.
+
+## 📬 Contact
+
+For any queries or contributions, reach out at `ka.shagor1@gmail.com` or create an issue in the repository.
+
+---
+
+🚀 **Happy Coding!** 🎉
