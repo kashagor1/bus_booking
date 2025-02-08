@@ -1,0 +1,138 @@
+<?php
+
+namespace App\Controllers;
+
+use CodeIgniter\Controller;
+
+use Dompdf\Dompdf;
+use Dompdf\Options;
+
+class Trip extends Controller
+{
+    protected $tripsModel;
+    protected $session;
+    protected $pdf; // Add this for the PDF library
+
+    public function __construct()
+    {
+        $this->tripsModel = new \App\Models\Trips(); // Instantiate the model
+        $this->session = \Config\Services::session();
+        $options = new Options();
+        $options->set('defaultFont', 'Helvetica'); // Optional: Set default font
+        $this->pdf = new Dompdf($options);    }
+
+    public function index()
+    {
+        if ($this->session->get('username') && $this->session->get('role_id') === '111') {
+            $data = [
+                'title' => "Add Trip",
+                'headline' => "Trips",
+                'trip_id' => $this->tripsModel->get_trip_number(), // Use $this->tripsModel
+            ];
+
+            return view('dashboard/dash_header', $data)
+                . view('dashboard/trip', $data)
+                . view('dashboard/dash_footer');
+        } else {
+            return redirect()->to(base_url('admin'));
+        }
+    }
+
+    public function create_trip()
+    {
+        if ($this->session->get('username') && $this->session->get('role_id') === '111') {
+            $data = $this->request->getPost(); // Use $this->request->getPost()
+            $this->tripsModel->create_trip($data); // Use $this->tripsModel
+            return redirect()->to(base_url('dashboard/trip'));
+        } else {
+            return redirect()->to(base_url('admin'));
+        }
+    }
+
+    public function cancel_trip()
+    {
+        if ($this->session->get('username') && $this->session->get('role_id') === '111') {
+            $trip = $this->request->getGet('id'); // Use $this->request->getGet()
+            $this->tripsModel->cancel_trip($trip); // Use $this->tripsModel
+            return redirect()->to(base_url('dashboard/list_trip'));
+        } else {
+            return redirect()->to(base_url('admin'));
+        }
+    }
+
+    public function list_trip()
+    {
+        if ($this->session->get('username') && $this->session->get('role_id') === '111') {
+            $data = [
+                'title' => "Lists Trip",
+                'headline' => "Trips",
+                'trips' => $this->tripsModel->get_trip_list(1), // Use $this->tripsModel
+            ];
+
+            return view('dashboard/dash_header', $data)
+                . view('dashboard/trip_list', $data)
+                . view('dashboard/dash_footer');
+        } else {
+            return redirect()->to(base_url('admin'));
+        }
+    }
+
+    public function clist_trip()
+    {
+        if ($this->session->get('username') && $this->session->get('role_id') === '111') {
+            $data = [
+                'title' => "Cancelled  Trips",
+                'headline' => "Trips",
+                'trips' => $this->tripsModel->get_trip_list(0), // Use $this->tripsModel
+            ];
+
+            return view('dashboard/dash_header', $data)
+                . view('dashboard/ctrip_list', $data)
+                . view('dashboard/dash_footer');
+        } else {
+            return redirect()->to(base_url('admin'));
+        }
+    }
+
+    public function view_trip_info()
+    {
+        if ($this->session->get('username') && $this->session->get('role_id') === '111') {
+            $data = [
+                'title' => "Trip Info",
+                'headline' => "Trips",
+                'tr_id' => $this->request->getGet('id'), // Use $this->request->getGet()
+                'co_id' => $this->request->getGet('cid'),
+                'coach' => $this->tripsModel->get_trip_info($this->request->getGet('cid')), // Use $this->tripsModel
+                'seats' => $this->tripsModel->get_seats_info($this->request->getGet()), // Use $this->tripsModel
+            ];
+
+            return view('dashboard/dash_header', $data)
+                . view('dashboard/view_trip', $data)
+                . view('dashboard/dash_footer');
+        } else {
+            return redirect()->to(base_url('admin'));
+        }
+    }
+
+    public function print_trip_info()
+    {
+        if ($this->session->get('username') && $this->session->get('role_id') === '111') {
+            $data = [
+                'tirp_no' => $this->request->getGet('id'),
+                'coach' => $this->tripsModel->get_trip_info($this->request->getGet('cid')), // Use $this->tripsModel
+                'seats' => $this->tripsModel->get_seats_info($this->request->getGet()), // Use $this->tripsModel
+            ];
+
+            $html = view('dashboard/print_trip', $data);
+
+            // Use the injected $this->pdf library
+            $this->pdf->loadHtml($html);
+            $this->pdf->setPaper('A4', 'portrait'); // Corrected spelling: portrait
+            $this->pdf->render();
+            $this->pdf->stream("Trip_List.pdf");
+
+        } else {
+            return redirect()->to(base_url('admin'));
+        }
+    }
+}
