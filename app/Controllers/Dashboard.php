@@ -121,6 +121,16 @@ class Dashboard extends Controller
         }
     }
 
+    public function company_info(){
+        if ($this->session->get('username') && $this->session->get('role_id') === '111') {
+            $id = $this->request->getGet('cid'); // Use $this->request->getGet()
+            $company_info = $this->dashboardsModel->get_c_info($id); // Use $this->dashboardsModel
+            return $this->response->setJSON($company_info); // Return JSON response
+        } else {
+            return redirect()->to(base_url('admin'));
+        }
+    }
+
     public function delete_company()
     {
         if ($this->session->get('username') && $this->session->get('role_id') === '111') {

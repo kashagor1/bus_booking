@@ -20,7 +20,7 @@
                           Origin
                         </div>
                         <div class="flex-fill">
-                          <input type="text" class="custom-input" name="origin" <?php if (!empty($_GET['origin']))
+                          <input required type="text" class="custom-input" name="origin" <?php if (!empty($_GET['origin']))
                             echo "value='" . $_GET['origin'] . "'"; ?> id="origin-input">
 
                           <!-- Placeholder for displaying search results -->
@@ -43,7 +43,7 @@
                           destination
                         </div>
                         <div class="flex-fill">
-                          <input type="text" class="custom-input" name="destination" <?php if (!empty($_GET['origin']))
+                          <input required type="text" class="custom-input" name="destination" <?php if (!empty($_GET['origin']))
                             echo 'value="' . $_GET["destination"] . '";';
                           ?> id="destination-input">
                           <div id="destination-search-results"></div>
@@ -65,7 +65,7 @@
                           Date
                         </div>
                         <div class="flex-fill">
-                          <input type="date" class="custom-input" name="date" <?php if (!empty($_GET['origin']))
+                          <input required type="date" class="custom-input" name="date" <?php if (!empty($_GET['origin']))
                             echo "value='" . $_GET['date'] . "'"; ?> id="date-input">
                         </div>
                       </div>
@@ -77,6 +77,8 @@
                   <div class="text-center d-grid gap-2">
                     <button class="btn btn-warning  p-3 b_submit_button" type="submit">Search
                       Bus</button>
+                      
+
                   </div>
 
                 </div>
@@ -170,7 +172,9 @@
 
 
           if ($result != 0) {
+            $ri  = 1;
             foreach ($result as $trip) {
+              $ri++;
              // var_dump($trip);die;
               ?>
 
@@ -273,16 +277,22 @@
 
                   <div class="clearfix"></div>
                      
-                  <button type="button" class="btn btn-danger btn-sm btnSubmit seatsLayout" data-params='
-                  {"origin":"<?php echo base64_encode($_GET['origin']);?>",
+              
+<button type="button" id="viewseats" data-params='
+                  { "company_name":"<?php echo $trip['company_name'];?>",
+                    "origin":"<?php echo base64_encode($_GET['origin']);?>",
                     "destination":"<?php echo base64_encode($_GET['destination']); ?>",
+                    "departure":"<?php echo $dTime;?>",
+                    "arrival":"<?php echo $aTime;?>",
                     "coach_id":"<?php echo $trip['coach_id']?>",
                     "route_id":"<?php echo $trip['route_id']?>",
                     "fare":"<?php echo $trip['final_fare'];?>",
                     "date":"<?php echo $_GET['date']?>",
-                    "trip_id":"<?php echo $trip['trip_id']?>"}
+                    "trip_id":"<?php echo $trip['trip_id']?>",
+                    "test_id":"<?php echo $ri; ?>"
+                    }
                     
-                    '>
+                    ' class="btn btn-danger btn-sm viewseats" data-bs-toggle="modal" data-bs-target="#exampleModal">
   View Seats
 </button>
                 </td>
@@ -306,3 +316,19 @@
   </div>
 
   </div>
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content" >
+      <div class="modal-header" id="seatModalHeader">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+        <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>  

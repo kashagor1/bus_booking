@@ -12,10 +12,11 @@
             <div class="row">
                 <div class="col-md-1"></div>
                 <div class="col-md-10">
+                    <form action="search" method="get" class="my-form ">
+
                     <div class="card px-3">
                         <div class="card-body">
                             <div class="row">
-                                <form action="search" method="get" class="my-form ">
                                     <div class="col-md-3">
                                         <div class="row">
                                             <div class="col-2 d-flex align-items-center">
@@ -29,7 +30,7 @@
                                                         Origin
                                                     </div>
                                                     <div class="flex-fill">
-                                                        <input type="text" class="custom-input" name="origin"
+                                                        <input required type="text" class="custom-input" name="origin"
                                                             id="origin-input">
 
                                                         <!-- Placeholder for displaying search results -->
@@ -52,7 +53,7 @@
                                                         destination
                                                     </div>
                                                     <div class="flex-fill">
-                                                        <input type="text" class="custom-input" name="destination"
+                                                        <input required type="text" class="custom-input" name="destination"
                                                             id="destination-input">
                                                         <div id="destination-search-results"></div>
                                                     </div>
@@ -73,7 +74,7 @@
                                                         Date
                                                     </div>
                                                     <div class="flex-fill">
-  <input type="text" class="custom-input" name="date" id="date-input">
+  <input required type="text" class="custom-input" name="date" id="date-input">
 </div>
 
                                                 </div>
@@ -82,18 +83,20 @@
                                     </div>
 
                                     <div class="col-md-3">
-                                        <div class="text-center d-grid gap-2">
-                                            <button class="btn btn-warning  p-3 b_submit_button" type="submit">Search
+                                        <div class="text-center">
+                                            <button class="btn btn-warning  p-2 b_submit_button" type="submit">Search
                                                 Bus</button>
                                         </div>
 
                                     </div>
-                                </form>
 
                             </div>
                         </div>
                     </div>
+                                                    </form>
+
                 </div>
+                
                 <div class="col-md-1"></div>
             </div>
             <div class="row">

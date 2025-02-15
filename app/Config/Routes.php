@@ -6,8 +6,12 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 
+
+
+
 $routes->get('/', 'Home::index'); // Default controller
 $routes->get('search', 'Home::search');
+$routes->get('newsearch', 'Home::newsearch');
 $routes->post('seatselection', 'Home::seatselection');
 $routes->get('fillinfo', 'Home::fillinfo');
 $routes->post('midform', 'Home::midform');
@@ -15,8 +19,8 @@ $routes->get('login', 'Home::login');
 $routes->post('login','Home::login');
 $routes->get('logout', 'Home::logout');
 $routes->post('newreg', 'Home::newreg');
-$routes->get('slogin', 'Home::slogin');
-$routes->get('register', 'Home::register');
+// $routes->get('slogin', 'Home::slogin');
+// $routes->get('register', 'Home::register');
 $routes->post('payment', 'Home::payment');
 $routes->post('process_payment', 'Home::process_payment');
 
@@ -46,6 +50,9 @@ $routes->post('dashboard/company', 'Dashboard::company');
 $routes->get('dashboard/company_edit_info', 'Dashboard::company_edit');
 $routes->post('dashboard/update_company', 'Dashboard::update_company'); // Use post for updates
 $routes->get('dashboard/delete_company', 'Dashboard::delete_company');
+$routes->get('dashboard/company_info', 'Dashboard::company_info');
+
+
 
 // Routes Routes
 $routes->get('dashboard/routes', 'Routes::index');

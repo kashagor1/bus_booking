@@ -16,6 +16,9 @@
                             <th>
                                 Route ID
                             </th>
+                             <th>
+                                Company Name
+                            </th>
                             <th>
                                 Route Path
                             </th>
@@ -38,6 +41,9 @@
                                 <td><?php echo $sl;?></td>
                                 <td>
                                     <?php echo $data['id']; ?>
+                                </td> 
+                                <td>
+                                    <?php echo $data['company_name']; ?>
                                 </td>
                                 <td>
                                     <?php echo $data['route_name']."-".$data['route_name2'];?>

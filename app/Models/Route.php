@@ -130,12 +130,12 @@ class Route extends Model
             $id = $row['id'];
 
             $route = $this->db->table($this->table)
-                ->select('route_name')
+                ->select('route_name,company_id')
                 ->where('route_id', $id)
                 ->where('point_type', 0)
                 ->get()
                 ->getRow();
-
+            $com_name =  $this->db->table('company')->select('company_name')->where('company_id', $route->company_id)->get()->getRow();
             $route2 = $this->db->table($this->table)
                 ->select('route_name, fare')
                 ->where('route_id', $id)
@@ -149,6 +149,7 @@ class Route extends Model
                     'route_name' => $route->route_name,
                     'route_name2' => $route2->route_name,
                     'fare' => $route2->fare,
+                    'company_name' => $com_name->company_name
                 ];
             } // else {
                 // Handle the case where one or both routes are not found.

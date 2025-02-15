@@ -8,7 +8,6 @@
         <div class="col-12">
             <form method="POST" action="payment" class="row">
                 <?php
-                $selected_seats = explode(",", $selected_seats);
                 foreach ($selected_seats as $seat_no) {
                     ?>
                     <div class="col-md-4">

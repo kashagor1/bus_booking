@@ -8,18 +8,22 @@
 
                 <form class="row g-3" method="POST" action="<?php echo base_url() ?>dashboard/create_route"
                     id="section-form">
-                    <div class="col-6">
+                    <div class="col-3">
                         <label for="inputAddress" class="form-label">Route ID</label>
                         <input type="text" class="form-control" id="inputAddress" placeholder="1" name="route_id" value="<?php echo $route_id+1;?>"
                             required readonly>
                     </div>
-                    <div class="col-6">
-                        <label for="inputAddress2" class="form-label">Company ID</label>
-                        <input type="text" class="form-control" id="inputAddress2" placeholder="1" name="company_id"
+                    <div class="col-4">
+                        <label for="inputCompany" class="form-label">Company ID</label>
+                        <input type="text" class="form-control" id="inputCompany" placeholder="1" name="company_id"
                             required>
                     </div>
+                     <div class="col-5">
+                        <label for="company_name" class="form-label">Company Name</label>
+                        <input type="text" class="form-control" id="company_name" placeholder="Company Name" name="company_name" required readonly>
+                    </div>
                     <div class="col-12">
-                        <div class="row" style="text-align:center;">
+                        <div class="row py-1" style="text-align:center;">
                             <div class="col-3">
                                 <h6>Route Name</h6>
                             </div>
@@ -41,7 +45,7 @@
                         </div>
                     </div>
                     <div class="col-12 ">
-                        <div class="row section-container" id="parent_input">
+                        <div class="row section-container py-1" id="parent_input">
                             <div class="col-3">
                                 <input type="text" name="route_name[]" class="form-control" id="route_input" required>
                                 <div id="route_input_a_result"></div>

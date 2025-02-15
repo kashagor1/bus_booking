@@ -117,7 +117,14 @@ var table = $('#rlist').DataTable({
 });
 
 
-
+$(document).on('change','#inputCompany',function(){
+    var company_id = $(this).val();
+    console.log(company_id);
+    $.get("<?php echo base_url()?>dashboard/company_info", {cid: company_id}, function(data) {
+        console.log(data);
+        $('#company_name').val(data.company_name);
+    }, "JSON");
+  });
 
   $(document).on('click', '.update_route_info', function() {
     var r_id = $(this).attr("c_id");

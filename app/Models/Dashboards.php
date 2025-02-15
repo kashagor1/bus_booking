@@ -33,10 +33,16 @@ class Dashboards extends Model
 
     public function get_c_info($id)
     {
-        return $this->db->table($this->table)
+        $data = $this->db->table($this->table)
             ->where($this->primaryKey, $id)
             ->get()
-            ->getRowArray(); // Get a single row as an array
+            ->getRowArray();
+        if ($data != null) {
+            return $data; 
+        } else {
+            $data['company_name'] = 'No data found';
+            return $data; 
+        }
     }
 
     public function update_c_info($id, $data)
