@@ -17,7 +17,7 @@ class District extends Controller
 
     public function index()
     {
-        $districts = $this->districtsModel->getList(); // Assuming getList() returns an array
+        $districts = $this->districtsModel->getList(); // Assuming getList()  returns an array
     
         return $this->response->setJSON($districts); // Use setJSON for correct JSON response
     }
@@ -26,5 +26,11 @@ class District extends Controller
         $ni = $this->request->getPost('id'); // Use $this->request->getPost()
 
         $roi_data = $this->districtsModel->get_all_roi($ni); // Store the returned data
+        return $this->response->setJSON($roi_data); // Use setJSON for correct JSON response
+    }
+    public function route_ids()
+    {
+        $route_ids = $this->districtsModel->get_all_route_ids(); // Assuming get_all_route_ids() returns an array
+        return $this->response->setJSON($route_ids); // Use setJSON for correct JSON response
     }
 }

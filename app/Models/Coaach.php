@@ -20,6 +20,12 @@ class Coaach extends Model
         $this->db = \Config\Database::connect(); // Use CodeIgniter 4's database connection
     }
 
+    public function get_all_coach_id()
+    {
+        $query = $this->db->table($this->table)->select('coach_id')->get();
+        return $query->getResultArray(); // Return result as array
+    }
+
     public function get_info($id)
     {
         // Use CodeIgniter 4's query builder for better security and readability

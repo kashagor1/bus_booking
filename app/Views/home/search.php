@@ -101,25 +101,20 @@
         <div class="p-4 mb-3 bg-body-tertiary rounded">
           <div class="companyType">
             <h4>Bus Companies</h4>
+             <?php foreach($companies as $op):?>
             <label>
-              <input type="checkbox" class="companyFilter" value="Ena"> Ena
+              <input type="checkbox" class="companyFilter" value="<?=$op?>"><?=$op?>
             </label>
-            <label>
-              <input type="checkbox" class="companyFilter" value="Hanif">Hanif
-            </label>
+            <?php endforeach; ?>
             <!-- Add more checkboxes for bus companies as needed -->
           </div>
           <div id="busTypeFilter">
             <h4>Bus Type</h4>
+            <?php foreach($coach_types as $cp):?>
             <label>
-              <input type="checkbox" class="busType" value="AC Premium">AC
+              <input type="checkbox" class="busType" value="<?=$cp?>"><?=$cp?>
             </label>
-            <label>
-              <input type="checkbox" class="busType" value="NON_AC">NON_AC
-            </label>
-            <label>
-              <input type="checkbox" class="busType" value="Classic">Classic
-            </label>
+            <?php endforeach; ?>
             <!-- Add more checkboxes for bus companies as needed -->
           </div>
           <div class="priceFilter">

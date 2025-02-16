@@ -52,7 +52,15 @@ class Home extends Controller
         
         $data['result'] = ($inputDate >= $currentDate && $inputDate <= $next7Days) ?
             $this->homModel->get_bus($in) : null; // Use $this->homModel
-
+        $companies = [];
+        $coach_types = [];
+        foreach ($data['result'] as $trip) {
+            $companies[] = $trip['company_name'];
+            $coach_types[] = $trip['coach_type'];
+        }
+        $data['companies'] = array_unique($companies);
+        $data['coach_types'] = array_unique($coach_types);
+        // var_dump($data['companies']);die;
 
         $data['or'] = $in['origin'];
         $data['ds'] = $in['destination'];

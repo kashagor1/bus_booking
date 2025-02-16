@@ -18,13 +18,27 @@ class Districts extends Model
     }
 
     public function getList() {
-        $builder = $this->db->table('district'); // Use the table builder
-        $query = $builder->select('district_name')->get(); // Select and get the results
-    
-        $resultArray = $query->getResultArray(); // Get the results as an array
-    
+         $query = $this->db->query("
+            SELECT district_name FROM district
+            UNION
+            SELECT route_name FROM routes
+        ");
+
+        $resultArray = $query->getResultArray();
+        return $resultArray;
+
+    }
+
+    public function get_all_route_ids(){
+        $query = $this->db->query("
+            SELECT DISTINCT route_id FROM `routes`
+        ");
+
+        $resultArray = $query->getResultArray();
         return $resultArray;
     }
+  
+
 
     public function get_all_roi($id)
     {
@@ -58,6 +72,6 @@ class Districts extends Model
         }
 
 
-        echo json_encode($data,true); // Return the array; let the controller handle JSON encoding
+        return json_encode($data,true); // Return the array; let the controller handle JSON encoding
     }
 }

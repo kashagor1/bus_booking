@@ -43,6 +43,7 @@ $routes->get('dashboard', 'Dashboard::index');
 // District Routes
 $routes->get('district', 'District::index');
 $routes->post('dashboard/odtbaseonroi', 'District::route_info');
+$routes->get('dashboard/route_ids', 'District::route_ids');
 
 // Company Routes
 $routes->get('dashboard/company', 'Dashboard::company');
@@ -69,7 +70,7 @@ $routes->post('dashboard/update_route', 'Routes::update_route'); // Use post for
 // Ticket Routes
 $routes->get('dashboard/ticket', 'Dashboard::ticket');
 $routes->get('dashboard/refund', 'Dashboard::refund');
-$routes->post('dashboard/sendref', 'Dashboard::sendref'); // Use post for sending refunds
+$routes->get('dashboard/sendref', 'Dashboard::sendref'); // Use post for sending refunds
 
 // Trip Routes
 $routes->get('dashboard/trip', 'Trip::index');
