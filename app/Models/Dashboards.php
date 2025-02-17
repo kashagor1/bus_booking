@@ -17,6 +17,19 @@ class Dashboards extends Model
         parent::__construct();
         $this->db = \Config\Database::connect(); // Use CodeIgniter 4's database connection
     }
+    public function count_trips($date)
+    {
+        // Use CodeIgniter's Query Builder to count trips
+        return $this->db->table('trips')
+                        ->where('trip_status', 1) // status should be 1 (active)
+                        ->where('departure_date', $date) // Check for the given date
+                        ->countAllResults(); // Count matching results
+    }
+    public function count_users()
+    {
+        return $this->db->table('nusers')->countAllResults();
+    }
+
 
     public function create_company($data)
     {
@@ -63,7 +76,11 @@ class Dashboards extends Model
     {
         return $this->db->table('coach')->get()->getResultArray();
     }
-
+    public function count_companies()
+    {
+        return $this->db->table('company')->countAllResults();
+    }
+   
     public function create_coach($data)
     {
         $oname = str_replace("'", "''", $data['main_boarding']); // Sanitize input

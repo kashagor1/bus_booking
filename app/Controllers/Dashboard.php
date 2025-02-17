@@ -14,14 +14,44 @@ class Dashboard extends Controller
     {
         $this->dashboardsModel = new \App\Models\Dashboards(); // Instantiate the model
         $this->personModel = new \App\Models\Person();
+        $this->ticketModel = new \App\Models\TicketModel();
         $this->session = \Config\Services::session();
     }
 
     public function index()
     {
+        $ticket_count = $this->ticketModel->count_tickets(date('Y-m-d'));
+        $bus_count = $this->dashboardsModel->count_trips(date('Y-m-d'));
+        $com_count = $this->dashboardsModel->count_companies();
+        $user_count = $this->dashboardsModel->count_users();
+        $data = [
+            'title' => "Dashboard",
+            'headline' => "Dashboard",
+            'ticket_count' => $ticket_count,
+            'bus_count' => $bus_count,
+            'com_count' => $com_count,
+            'user_count' => $user_count,
+        ];
         if ($this->session->get('username') && $this->session->get('role_id') === '111') {
             return view('dashboard/dash_header')
-                . view('dashboard/index')
+                . view('dashboard/index',$data)
+                . view('dashboard/dash_footer');
+        } else {
+            return redirect()->to(base_url('admin'));
+        }
+    }
+    public function purchased_tickets($date = null)
+    {
+        
+        if ($this->session->get('username') && $this->session->get('role_id') === '111') {
+            if (!$date || !preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
+                return "Invalid date format. Please use YYYY-MM-DD.";
+            }
+
+            $tickets = $this->ticketModel->get_tickets($date);
+            // var_dump($tickets);die;
+            return view('dashboard/dash_header')
+                . view('dashboard/purchased_tickets', ['tickets' => $tickets])
                 . view('dashboard/dash_footer');
         } else {
             return redirect()->to(base_url('admin'));

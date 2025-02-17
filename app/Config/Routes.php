@@ -39,6 +39,9 @@ $routes->post('admin/register','Admin::register');
 
 // Dashboard Routes
 $routes->get('dashboard', 'Dashboard::index');
+$routes->get('dashboard/purchased_tickets/(:segment)', 'Dashboard::purchased_tickets/$1');
+
+
 
 // District Routes
 $routes->get('district', 'District::index');
