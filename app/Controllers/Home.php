@@ -30,6 +30,7 @@ class Home extends Controller
             . view('home/home')
             . view('home/footer');
     }
+   
 
     public function newsearch(){
 
@@ -40,18 +41,20 @@ class Home extends Controller
    
     public function search()
     {
-        $this->session->remove('booking_data');
-
+        if($this->session->get('booking_data') && isset($this->session->get('booking_data')['trip_type']) && $this->session->get('booking_data')['trip_type'] == 'oneWay') {
+            var_dump($this->session->get('booking_data'));
+            die;
+            $this->session->remove('booking_data');
+        }
         $isLoggedin = $this->session->get('username') ? true : false;
         $in = $this->request->getGet(); // Use $this->request->getGet() for GET requests
-
         $data = [];
         $currentDate = date('Y-m-d');
         $inputDate = $in['date'];
         $next7Days = date('Y-m-d', strtotime('+7 days'));
         
         $data['result'] = ($inputDate >= $currentDate && $inputDate <= $next7Days) ?
-            $this->homModel->get_bus($in) : null; // Use $this->homModel
+        $this->homModel->get_bus($in) : null; // Use $this->homModel
         $companies = [];
         $coach_types = [];
         foreach ($data['result'] as $trip) {
@@ -65,6 +68,14 @@ class Home extends Controller
         $data['or'] = $in['origin'];
         $data['ds'] = $in['destination'];
         $data['dt'] = $in['date'];
+        $data['trip_type'] = $in['trip_type'];
+        if($data['trip_type'] == 'roundWay') {
+            $data['rt'] = $in['rdate'];
+        }
+
+
+
+
         $data['isLoggedin'] = $isLoggedin;
         $data['role_id'] = $this->session->get('role_id');
 
@@ -226,9 +237,28 @@ class Home extends Controller
                 'fare' => $data['fare'],
                 'origin' => base64_decode($data['origin']),
                 'destination' => base64_decode($data['destination']),
-                'date' => $data['date']
+                'date' => $data['date'],
+                'roundWay' => $data['trip_type']
             ];
             $this->session->set('booking_data', $ata);
+            if($data['trip_type'] == 'roundWay') {
+                return redirect()->to(base_url('search?origin='.urlencode($ata['destination']).'&destination='.urlencode($ata['origin']).'&date='.urlencode($data['rdate']).'&trip_type=roundWay&rdate='));
+            }
+        }
+        if($data['trip_type'] == 'roundWay') {
+            $ata = [
+                'selected_seats' => $selectedSeats,
+                'coach_id' => $data['coach_id'],
+                'trip_id' => $data['trip_id'],
+                'route_id' => $data['route_id'],
+                'fare' => $data['fare'],
+                'origin' => base64_decode($data['origin']),
+                'destination' => base64_decode($data['destination']),
+                'date' => $data['date']
+            ];
+            $this->session->set('return_booking_data', $ata);
+            // var_dump($this->session->get('booking_data'));
+            // var_dump($this->session->get('return_booking_data'));die;
         }
         if ($isLoggedin === true) {
             return redirect()->to(BASE_URL('fillinfo'));
@@ -270,16 +300,13 @@ class Home extends Controller
        
         $data['isLoggedin'] = $this->session->get('username') ? true : false;
         $data['role_id'] = $this->session->get('role_id');
-
-        $bookingData = $this->session->get('booking_data');
-        if(!$bookingData) {
-            return redirect()->to(BASE_URL());
-        }
-        // $bookingData['selected_seats'] = json_decode($bookingData['selected_seats'], true); 
-        // var_dump($bookingData);die;
-
+        $data['bookingData'] = $this->session->get('booking_data');
+        $data['returnBookingData'] = $this->session->get('return_booking_data');
+        // if(!$bookingData) {
+        //     return redirect()->to(BASE_URL());
+        // }
         return view('home/header', $data)
-            . view('seatsl/step1', $bookingData)
+            . view('seatsl/step1', $data)
             . view('seatsl/footer');
     }
 

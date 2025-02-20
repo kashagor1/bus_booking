@@ -1,92 +1,46 @@
-<div class="container">
-<div class="p-4 p-md-5 mb-4 rounded text-body-emphasis bg-body-secondary">
+<div class="container my-4">
+<div class="p-4 p-md-5 mb-4 rounded text-body-emphasis bg-body-secondary section-with-background" style="margin-top: 20px;">
     <div class="row py-5">
       <div class="col-md-1"></div>
       <div class="col-md-10">
-        <div class="card px-3">
-          <div class="card-body">
-            <div class="row">
-              <form action="search" method="get" class="my-form ">
-                <div class="col-md-3">
-                  <div class="row">
-                    <div class="col-2 d-flex align-items-center">
-                      <div class="text-center">
-                        <i class="sicon fa-solid fa-bus-simple"></i>
-                      </div>
+        <form action="search" method="get" class="my-form" id="bus-search-form">
+                <div class="search-box" style="margin-top: 0px;">
+                    <div class="d-flex align-items-center mb-3">
+                        <input type="radio" name="trip_type" id="oneWay" value="oneWay" <?php if($trip_type == 'oneWay') echo 'checked';?>>
+                        <label for="oneWay" class="ms-2">One Way</label>
+                        <input type="radio" name="trip_type" id="roundWay" value="roundWay" <?php if($trip_type == 'roundWay') echo 'checked';?> class="ms-3">
+                        <label for="roundWay" class="ms-2">Round Way</label>
                     </div>
-                    <div class="col-10">
-                      <div class="d-flex flex-column">
-                        <div class="flex-fill form_header">
-                          Origin
+                    <div class="row g-2 align-items-end">
+                        <div class="col-md-3" style="position: relative;">
+                            <label class="form-label">From</label>
+                            <div class="input-group">
+                                <input required type="text" value="<?=$or?>" class="form-control custom-input" placeholder="Enter City" name="origin" id="origin-input">
+                            </div>
+                            <div id="origin-search-results" class="search-results-container"></div>
                         </div>
-                        <div class="flex-fill">
-                          <input required type="text" class="custom-input" name="origin" <?php if (!empty($_GET['origin']))
-                            echo "value='" . $_GET['origin'] . "'"; ?> id="origin-input">
-
-                          <!-- Placeholder for displaying search results -->
-                          <div id="origin-search-results"></div>
+                        <div class="col-md-3" style="position: relative;">
+                            <label class="form-label">To</label>
+                            <div class="input-group">
+                                <input required type="text" value="<?=$ds?>" class="form-control custom-input" placeholder="Enter destination" name="destination" id="destination-input">
+                            </div>
+                            <div id="destination-search-results" class="search-results-container"></div>
                         </div>
-                      </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Journey Date</label>
+                            <input required type="text" value=<?=$dt?> class="custom-input form-control" name="date" id="date-input" placeholder="Select Date">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Return Date</label>
+                            <input type="text" class="custom-input form-control rdate_input" value="<?php if ($trip_type=='roundWay') echo $rt?>" name="rdate" id="rdate-input" placeholder="Select Date">
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-success w-100" type="submit">SEARCH</button>
+                        </div>
                     </div>
-                  </div>
                 </div>
-                <div class="col-md-3">
-                  <div class="row">
-                    <div class="col-2 d-flex align-items-center">
-                      <div class="text-center">
-                        <i class="sicon fa-solid fa-bus-simple"></i>
-                      </div>
-                    </div>
-                    <div class="col-10">
-                      <div class="d-flex flex-column">
-                        <div class="flex-fill form_header">
-                          destination
-                        </div>
-                        <div class="flex-fill">
-                          <input required type="text" class="custom-input" name="destination" <?php if (!empty($_GET['origin']))
-                            echo 'value="' . $_GET["destination"] . '";';
-                          ?> id="destination-input">
-                          <div id="destination-search-results"></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="row">
-                    <div class="col-2 d-flex align-items-center">
-                      <div class="text-center">
-                        <i class="sicon fa-solid fa-calendar-days"></i>
-                      </div>
-                    </div>
-                    <div class="col-10">
-                      <div class="d-flex flex-column">
-                        <div class="flex-fill form_header">
-                          Date
-                        </div>
-                        <div class="flex-fill">
-                          <input required type="date" class="custom-input" name="date" <?php if (!empty($_GET['origin']))
-                            echo "value='" . $_GET['date'] . "'"; ?> id="date-input">
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-md-3">
-                  <div class="text-center d-grid gap-2">
-                    <button class="btn btn-warning  p-3 b_submit_button" type="submit">Search
-                      Bus</button>
-                      
-
-                  </div>
-
-                </div>
-              </form>
-
-            </div>
-          </div>
-        </div>
+            </form>
+      
       </div>
       <div class="col-md-1"></div>
     </div>

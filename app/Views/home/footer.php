@@ -1,26 +1,41 @@
 </main>
 
-<footer class="footer mt-auto py-3 bg-body-tertiary">
+<footer class="footer mt-auto py-3">
   <div class="container">
-    <span class="text-body-secondary">© 2023 | All Rights Resevered by ka.shagor</span>
+    <span class="text-body-secondary footerText">© 2023-<?php echo date('Y')?> | All Rights Resevered by <a href="https://kashagor.my.id/" target="_blank" rel="noopener noreferrer">kashagor</a> </span>
   </div>
 </footer>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
-<script src="<?PHP ECHO BASE_URL();?>ASSETS/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="<?PHP ECHO BASE_URL();?>ASSETS/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="<?PHP ECHO BASE_URL();?>ASSETS/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="<?PHP ECHO BASE_URL();?>ASSETS/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-<script src="<?PHP ECHO BASE_URL();?>ASSETS/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-<script src="<?PHP ECHO BASE_URL();?>ASSETS/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="<?PHP ECHO BASE_URL();?>assets/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?PHP ECHO BASE_URL();?>assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="<?PHP ECHO BASE_URL();?>assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="<?PHP ECHO BASE_URL();?>assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="<?PHP ECHO BASE_URL();?>assets/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="<?PHP ECHO BASE_URL();?>assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
 
-<script src="<?PHP ECHO BASE_URL();?>ASSETS/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-<script src="<?PHP ECHO BASE_URL();?>ASSETS/plugins/datatables-buttons/js/buttons.print.min.js"></script>
-<script src="<?PHP ECHO BASE_URL();?>ASSETS/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<script src="<?PHP ECHO BASE_URL();?>assets/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="<?PHP ECHO BASE_URL();?>assets/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="<?PHP ECHO BASE_URL();?>assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
   integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-  <script>
+ 
+<script>
+    $(document).ready(function() {
+        $(".setsearchform").click(function() {
+            var from = $(this).data('from');
+            var to = $(this).data('to');
+            $("#origin-input").val(from);
+            $("#destination-input").val(to);
+            $('#date-input').focus();
+        });
+    });
+</script>
+ 
+ 
+ <script>
  $(document).ready(function () {
     $('#rlist').DataTable({
         "columns": [
@@ -150,7 +165,6 @@ function updateModalBody(data,params) {
     const $totalDiv = $('<hr><h4>Total: <span id="totalAmount">0</span></h4>');
 
 
-    
     $form.append($selectedSeatsList);
 
     // Add hidden input fields to the form
@@ -162,7 +176,11 @@ function updateModalBody(data,params) {
     $form.append(`<input type="hidden" name="destination" value="${params.destination}">`);
     $form.append(`<input type="hidden" name="date" value="${params.date}">`);
     $form.append($totalDiv);
-
+    let checkedValue = $("input[name='trip_type']:checked").val();
+    $form.append(`<input type="hidden" name="trip_type" value="${checkedValue}">`);
+    let returnDate = $("#rdate-input").val();
+    $form.append(`<input type="hidden" name="rdate" value="${returnDate}">`);
+    console.log(returnDate);
 
     $form.append('<button type="submit" id="checkoutBtn" disabled>Checkout</button>'); // Disable initially
     $form.submit(function(event) {  // Form submit handler
@@ -237,48 +255,6 @@ buttons.forEach(function(button) {
 
 <script>
 
-
-
-
-  
-//  $(document).ready(function() {
-//       // Initialize DataTable
-//       var table = $('#busTable').DataTable({
-//         "lengthMenu": [ -1 ],
-//         "paging": false,
-//         "searching": true,
-//         "language": {
-//             "emptyTable": "Opps! Sorry No Bus Is Available!"
-//         }
-//       });
-//       $("#busTable_filter").hide();
-
-
-//       // Handle company filter
-//       $('.companyFilter').on('change', function() {
-//         var selectedCompanies = [];
-//         $('.companyFilter:checked').each(function() {
-//           selectedCompanies.push($(this).val());
-//         });
-//         table.columns(0).search(selectedCompanies.join('|'), true, false).draw();
-//       });
-
-//       // Handle bus type filter
-//       $('.busType').on('change', function() {
-//         var selectedBusTypes = [];
-//         $('.busType:checked').each(function() {
-//           selectedBusTypes.push($(this).val());
-//         });
-//         table.columns(1).search(selectedBusTypes.join('|'), true, false).draw();
-//       });
-
-//       // Handle price range filter
-//       $('#minPrice, #maxPrice').on('keyup', function() {
-//         var minPrice = $('#minPrice').val();
-//         var maxPrice = $('#maxPrice').val();
-//         table.columns(2).search(minPrice + '-' + maxPrice, true, false).draw();
-//       });
-//     });
 $(document).ready(function() {
     var table = $('#busTable').DataTable({
         "lengthMenu": [ -1 ],
@@ -309,106 +285,63 @@ $(document).ready(function() {
         table.columns(0).search(selectedBusTypes.join('|'), true, false).draw();
     });
 
-    // Handle price range filter
-    $('#minPrice, #maxPrice').on('keyup', function() {
-    var minPrice = parseFloat($('#minPrice').val());
-    var maxPrice = parseFloat($('#maxPrice').val());
-    table.column(4).search(function(data, _, rowData) {
-        var fare = parseFloat(data.replace(/[^\d.]/g, ''));
-        return fare >= minPrice && fare <= maxPrice;
-    }).draw();
-});
-
-
 });
 
 </script>
+
+
 <script>
- 
+    $(document).ready(function () {
+        const rdateInput = $('.rdate_input');
+        const form = $('#bus-search-form');
 
-  // Sample JSON data for search results
-  function setupLiveSearch(inputId, resultsId) {
-    var inputField = document.getElementById(inputId);
-    var searchResults = document.getElementById(resultsId);
-
-    inputField.addEventListener("input", function () {
-      var searchTerm = inputField.value.toLowerCase();
-      console.log(searchTerm);
-
-      // Clear the search results if the search term is empty
-      if (searchTerm.length <= 2) {
-        searchResults.innerHTML = "";
-        return;
-      }
-
-      // Make an asynchronous request to fetch search results from the server
-      fetch('<?=BASE_URL()?>district')
-        .then(response => response.json())
-        .then(data => {
-          searchResults.innerHTML = "";
-
-          data.forEach(function (result) {
-            var resultName = result.district_name.toLowerCase();
-
-            if (resultName.includes(searchTerm)) {
-              var resultItem = document.createElement("div");
-              resultItem.textContent = result.district_name;
-              resultItem.addEventListener("click", function () {
-                inputField.value = result.district_name;
-                searchResults.innerHTML = "";
-              });
-              searchResults.appendChild(resultItem);
-            }
-          });
-        })
-        .catch(error => {
-          console.error('Error:', error);
-        });
-    });
-  }
-
-  // Setup live search for origin input
-  setupLiveSearch("origin-input", "origin-search-results");
-
-  // Setup live search for destination input
-  setupLiveSearch("destination-input", "destination-search-results");
-
-
-</script>
-
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <!-- <script>
-    flatpickr("#date-input", {
-      minDate: null,
-      maxDate: new Date().fp_incr(7),
-      disable: [
-        function(date) {
-          // Disable dates in the past
-          return date < new Date();
-        },
-        function(date) {
-          // Disable dates more than 7 days in the future
-          return date > new Date().fp_incr(7);
+        function updateReturnDateInput() {
+            rdateInput.prop('disabled', $('input[name="trip_type"]:checked').val() === 'oneWay')
+                .prop('required', $('input[name="trip_type"]:checked').val() !== 'oneWay');
         }
-      ]
-    });
-</script> -->
-<script>
-  // Get the current date in GMT+6
-  var currentDate = new Date(); // Get the current date
-  // currentDate.setHours(currentDate.getHours() - 6); // Adjust for GMT+6
-  // console.log(currentDate);
 
-  flatpickr("#date-input", {
-    minDate: currentDate,
-    maxDate: currentDate.fp_incr(7),
-    disable: [
-      function(date) {
-        // Disable dates more than 7 days in the future
-        return date > currentDate.fp_incr(7);
-      }
-    ]
-  });
+        updateReturnDateInput();
+        $('input[name="trip_type"]').change(updateReturnDateInput);
+
+        flatpickr("#date-input,#rdate-input", {
+            minDate: "today",
+            maxDate: new Date().fp_incr(7)
+        });
+
+
+        function setupLiveSearch(inputId, resultsId) {
+            const inputField = $(`#${inputId}`);
+            const searchResults = $(`#${resultsId}`);
+            let timeoutId;
+
+            inputField.on("input", function () {
+                clearTimeout(timeoutId);
+                timeoutId = setTimeout(() => {
+                    const searchTerm = inputField.val().toLowerCase();
+                    if (searchTerm.length <= 2) return searchResults.empty();
+
+                    $.getJSON('<?=BASE_URL()?>district', function (data) {
+                        searchResults.empty();
+                        data.forEach(result => {
+                            if (result.district_name.toLowerCase().includes(searchTerm)) {
+                                $('<div>', {
+                                    text: result.district_name,
+                                    class: 'search-result-item',
+                                    click: () => {
+                                        inputField.val(result.district_name);
+                                        searchResults.empty();
+                                    }
+                                }).appendTo(searchResults);
+                            }
+                        });
+                    }).fail(err => console.error('Error:', err));
+                }, 300);
+            });
+        }
+
+        setupLiveSearch("origin-input", "origin-search-results");
+        setupLiveSearch("destination-input", "destination-search-results");
+    });
 </script>
 
 
