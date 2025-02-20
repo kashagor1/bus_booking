@@ -14,7 +14,12 @@
         <link rel="stylesheet" href="<?PHP ECHO BASE_URL();?>assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="<?PHP ECHO BASE_URL();?>assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
   <link rel="stylesheet" href="<?PHP ECHO BASE_URL();?>assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
-    <link rel="stylesheet" href="assets/home.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.min.css">  
+  
+  
+  <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.7.0.js"></script> <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>  </head>
+
+  <link rel="stylesheet" href="assets/home.css">
 </head>
 
 <body>

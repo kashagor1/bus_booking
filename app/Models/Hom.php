@@ -4,6 +4,7 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
+
 class Hom extends Model
 {
     protected $table = 'nusers'; // Good practice to define the table
@@ -15,6 +16,8 @@ class Hom extends Model
     {
         parent::__construct();
         $this->db = \Config\Database::connect();
+        $this->ticketModel = new TicketModel(); 
+        $this->purchaseInfoModel = new PurchaseInfoModel(); 
     }
 
     public function slogin($in)
@@ -171,67 +174,137 @@ class Hom extends Model
     }
 
 
+    // public function process_payment($post)
+    // {
+    //     $bookingData = $post['booking_data'];
+    //     $username = $post['username'];
+    //     $personalInfo = $post['personal_info'];
+
+    //     $selectedSeats = $personalInfo['seat'];
+    //     $fare = $post['booking_data']['fare'];
+    //     $passengerNames = $personalInfo['name'];
+
+    //     date_default_timezone_set('Asia/Dhaka');
+    //     $currentDate = date('Y-m-d');
+
+    //     $pnr = $this->generatePNR();
+
+    //     $tickets = [];
+    //     foreach ($selectedSeats as $index => $seat) {
+    //         $passengerName = $passengerNames[$index];
+
+    //         $ticket = [
+    //             'pnr' => $pnr,
+    //             'name' => $passengerName,
+    //             'trip_id' => $bookingData['trip_id'],
+    //             'source' => str_replace("'", "''", $bookingData['origin']), // Sanitize input
+    //             'destination' => str_replace("'", "''", $bookingData['destination']), // Sanitize input
+    //             'seat_no' => $seat,
+    //         ];
+
+    //         $tickets[] = $ticket;
+    //     }
+
+    //     if (count($tickets) == count($selectedSeats)) { // Corrected comparison
+    //         foreach ($tickets as $ticket) {
+    //             $ticketData = [  // Use an array for insert
+    //                 'pnr' => $ticket['pnr'],
+    //                 'name' => $ticket['name'],
+    //                 'trip_id' => $ticket['trip_id'],
+    //                 'source' => $ticket['source'],
+    //                 'destination' => $ticket['destination'],
+    //                 'phone_number' => '12345', // Replace with actual phone number handling
+    //                 'seat_no' => $ticket['seat_no'],
+    //                 'username' => $username,
+    //                 'b_date' => $currentDate,
+    //                 'fare' => $fare,
+    //             ];
+    //             $this->db->table('tickets')->insert($ticketData); // Use query builder and mass assignment
+    //         }
+
+    //         $purchase_info = [ // Use an array for insert
+    //             'username' => $username,
+    //             'pnr' => $pnr,
+    //             'booking_date' => $bookingData['date'],
+    //             'issuing_date' => $currentDate,
+    //         ];
+    //         $this->db->table('purchase_info')->insert($purchase_info); // Use query builder and mass assignment
+
+    //         return true;
+    //     } else {
+    //         return false;
+    //     }
+    // }
     public function process_payment($post)
     {
-        $bookingData = $post['booking_data'];
         $username = $post['username'];
+
+
+        $bookingData = $post['booking_data'];
         $personalInfo = $post['personal_info'];
+        
+        $result = $this->confirm_tickets($username, $bookingData, $personalInfo); // Store the result
+        if(isset($post['return_booking_data'])){
 
+            $rbookingData  = $post['return_booking_data'];
+            $rips = $post['personal_info'];
+            $returnpersonalInfo['seat']  =  $rips['rseat'];
+            $returnpersonalInfo['name']  = $rips['rname'];
+            $returnResult = $this->confirm_tickets($username, $rbookingData, $returnpersonalInfo);
+            return $returnResult && $result; // Return true only if BOTH are successful.
+        }
+        return $result;
+    }
+
+    private function confirm_tickets($username,$bookingData,$personalInfo){
+        $fare =  $bookingData['fare'];
         $selectedSeats = $personalInfo['seat'];
-        $fare = $post['booking_data']['fare'];
         $passengerNames = $personalInfo['name'];
-
-        date_default_timezone_set('Asia/Dhaka');
-        $currentDate = date('Y-m-d');
+        $currentDate = date('Y-m-d'); 
 
         $pnr = $this->generatePNR();
+        // Use a single transaction for atomicity (all operations succeed or none)
+        $this->db->transBegin();
 
-        $tickets = [];
-        foreach ($selectedSeats as $index => $seat) {
-            $passengerName = $passengerNames[$index];
-
-            $ticket = [
-                'pnr' => $pnr,
-                'name' => $passengerName,
-                'trip_id' => $bookingData['trip_id'],
-                'source' => str_replace("'", "''", $bookingData['origin']), // Sanitize input
-                'destination' => str_replace("'", "''", $bookingData['destination']), // Sanitize input
-                'seat_no' => $seat,
-            ];
-
-            $tickets[] = $ticket;
-        }
-
-        if (count($tickets) == count($selectedSeats)) { // Corrected comparison
-            foreach ($tickets as $ticket) {
-                $ticketData = [  // Use an array for insert
-                    'pnr' => $ticket['pnr'],
-                    'name' => $ticket['name'],
-                    'trip_id' => $ticket['trip_id'],
-                    'source' => $ticket['source'],
-                    'destination' => $ticket['destination'],
-                    'phone_number' => '12345', // Replace with actual phone number handling
-                    'seat_no' => $ticket['seat_no'],
+        try {
+            foreach ($selectedSeats as $index => $seat) {
+                $ticketData = [
+                    'pnr' => $pnr,
+                    'name' => $passengerNames[$index],
+                    'trip_id' => $bookingData['trip_id'],
+                    'source' => $bookingData['origin'], // No need for str_replace if using parameterized queries (see below)
+                    'destination' => $bookingData['destination'], // No need for str_replace if using parameterized queries (see below)
+                    'seat_no' => $seat,
                     'username' => $username,
                     'b_date' => $currentDate,
                     'fare' => $fare,
+                    'phone_number' => '12345', //  Get the phone number! $personalInfo['phone'] ??  Handle missing phone numbers.
                 ];
-                $this->db->table('tickets')->insert($ticketData); // Use query builder and mass assignment
+
+                $this->ticketModel->insert($ticketData); // Use the TicketModel
+                
             }
 
-            $purchase_info = [ // Use an array for insert
+            $purchase_info = [
                 'username' => $username,
                 'pnr' => $pnr,
                 'booking_date' => $bookingData['date'],
                 'issuing_date' => $currentDate,
             ];
-            $this->db->table('purchase_info')->insert($purchase_info); // Use query builder and mass assignment
+            $this->purchaseInfoModel->insert($purchase_info); // Use the PurchaseInfoModel
 
+            $this->db->transCommit();
             return true;
-        } else {
-            return false;
+
+        } catch (\Exception $e) {
+            $this->db->transRollback();
+            // Log the error for debugging.  Important!
+            log_message('error', $e->getMessage()); 
+            return false; // Or return an error message for the user.
         }
     }
+
+
 
     public function generatePNR()
     {
@@ -256,3 +329,4 @@ class Hom extends Model
         return $checksum;
     }
 }
+

@@ -26,6 +26,7 @@ class Home extends Controller
         $data = ['isLoggedin' => $isLoggedin];
         $data['role_id'] = $this->session->get('role_id');
         $this->session->remove('booking_data');
+        $this->session->remove('return_booking_data');
         return view('home/header', $data) // Use return view() in CI4
             . view('home/home')
             . view('home/footer');
@@ -42,8 +43,6 @@ class Home extends Controller
     public function search()
     {
         if($this->session->get('booking_data') && isset($this->session->get('booking_data')['trip_type']) && $this->session->get('booking_data')['trip_type'] == 'oneWay') {
-            var_dump($this->session->get('booking_data'));
-            die;
             $this->session->remove('booking_data');
         }
         $isLoggedin = $this->session->get('username') ? true : false;
@@ -287,7 +286,9 @@ class Home extends Controller
     {
         $post = $this->session->get(); // Use $this->session->get()
 
-        if ($this->homModel->process_payment($post)) { // Use $this->homModel
+        if ($this->homModel->process_payment($post) == true) { // Use $this->homModel
+            $this->session->remove('booking_data');
+            $this->session->remove('return_booking_data');
             return redirect()->to(BASE_URL('tickets'));
         } else {
             return redirect()->to(BASE_URL());
@@ -301,7 +302,11 @@ class Home extends Controller
         $data['isLoggedin'] = $this->session->get('username') ? true : false;
         $data['role_id'] = $this->session->get('role_id');
         $data['bookingData'] = $this->session->get('booking_data');
-        $data['returnBookingData'] = $this->session->get('return_booking_data');
+        // var_dump($data);die;
+       
+        if(!empty($this->session->get('return_booking_data'))){
+            $data['returnBookingData'] = $this->session->get('return_booking_data');
+        }
         // if(!$bookingData) {
         //     return redirect()->to(BASE_URL());
         // }

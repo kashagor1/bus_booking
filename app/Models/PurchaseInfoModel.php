@@ -4,15 +4,15 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class TicketModel extends Model
+class PurchaseInfoModel extends Model
 {
-    protected $table            = 'tickets';
+    protected $table            = 'purchase_info';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields = ['pnr', 'name', 'trip_id', 'source', 'destination', 'seat_no', 'username', 'b_date', 'fare', 'phone_number']; // Define allowed fields
+    protected $allowedFields = ['username', 'pnr', 'booking_date', 'issuing_date']; // Define allowed fields
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -43,26 +43,4 @@ class TicketModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
-
-    public function get_tickets($date)
-    {
-        // Use CodeIgniter's query builder to execute the custom SQL query
-        $builder = $this->db->table('tickets');
-        
-        $builder->select('pnr, SUM(fare) as fare, GROUP_CONCAT(seat_no) AS seats, source, trip_id, destination')
-                ->where('b_date', $date)
-                ->groupBy('pnr'); // Group by 'pnr' to aggregate fare and seat numbers
-
-        // Execute the query and return the results
-        $tickets = $builder->get()->getResultArray();
-
-        return $tickets;
-    }
-
-    public function count_tickets($date)
-    {
-        $tickets = $this->where('b_date', $date)->countAllResults();
-        return $tickets;
-    }
-
 }
