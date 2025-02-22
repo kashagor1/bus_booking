@@ -7,14 +7,17 @@ use CodeIgniter\Controller;
 class Dashboard extends Controller
 {
     protected $dashboardsModel;
+    protected $hom;
     protected $personModel;
     protected $session;
+
 
     public function __construct()
     {
         $this->dashboardsModel = new \App\Models\Dashboards(); // Instantiate the model
         $this->personModel = new \App\Models\Person();
         $this->ticketModel = new \App\Models\TicketModel();
+        $this->hom = new \App\Models\Hom();
         $this->session = \Config\Services::session();
     }
 
@@ -168,6 +171,61 @@ class Dashboard extends Controller
             return redirect()->to(base_url('dashboard/company'));
         } else {
             return redirect()->to(base_url('admin'));
+        }
+    }
+    public function cusers($id){
+        if ($this->session->get('username') && $this->session->get('role_id') === '111') {
+            if ($this->request->getPost()) { // Use $this->request->getPost()
+
+                $data= $this->request->getPost();
+                $res = $this->hom->register_user($data);
+                $data['company_id']  = $id;
+                $data['user_id'] = $res;
+                $ress = $this->dashboardsModel->create_company_user($data);
+                if($res && $ress){
+                    return redirect()->to(base_url('dashboard/company/users/'.$id));
+                }
+            }
+            $listcmp = $this->dashboardsModel->get_cusers($id);
+          
+            $data = [
+                'title' => "Company",
+                'headline' => "Manage Company",
+                'jsonResult' => $listcmp, // Use $this->dashboardsModel
+            ];
+
+            return view('dashboard/dash_header', $data)
+                . view('dashboard/company_users')
+                .view('dashboard/company_users_list',$data)
+                . view('dashboard/dash_footer');
+        } else {
+            return redirect()->to(base_url('admin'));
+        } 
+
+    }
+
+    public function user_info()
+    {
+        if ($this->session->get('username') && $this->session->get('role_id') === '111') {
+            $id = $this->request->getPost('uid'); // Use $this->request->getPost()
+            $company_info = $this->dashboardsModel->get_cuser_info($id); // Use $this->dashboardsModel
+            return $this->response->setJSON($company_info); // Return JSON response
+        } else {
+            return redirect()->to(base_url('admin'));
+        }
+    }
+    public function update_user(){
+        $postData = $this->request->getPost();
+        $id = $postData['uid'];
+
+        $res = $this->dashboardsModel->update_c_user($id,$postData);
+         $ci = $this->dashboardsModel->get_com_id($id);
+            $cid= $ci->company_id;
+        if($res){
+           
+            return redirect()->to(base_url('dashboard/company/users/'.$cid));
+        }else{
+            return redirect()->to(base_url('dashboard/company/users/'.$cid));
         }
     }
 }

@@ -86,6 +86,7 @@
                                     <button class="btn btn-sm btn-warning update_company_info" data-bs-toggle="modal"
                                         data-bs-target="#update_company" c_id="<?php echo $data['company_id']?>">
                                         Update</button>
+                                    <a href="<?php echo base_url()."dashboard/company/users/".$data['company_id'];?>">   <button class="btn btn-sm btn-secondary">Company Users</button></a>
 
                                     <a href="<?php echo base_url()."dashboard/delete_company?id=".$data['company_id'];?>">   <button class="btn btn-sm btn-danger">Delete</button></a>
                                 </td>

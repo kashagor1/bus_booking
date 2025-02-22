@@ -108,7 +108,7 @@ var table = $('#rlist').DataTable({
   $(document).on('click', '.update_company_info', function() {
     var c_id = $(this).attr("c_id");
     console.log(c_id);
-    $.get("<?php echo base_url()?>dashboard/company_edit_info", {cid: c_id}, function(data) {
+    $.get("<?php echo base_url()?>dashboard/company/edit_info", {cid: c_id}, function(data) {
         console.log(data);
          $('#edit_company_phone').val(data.company_phone);
          $('#edit_company_name').val(data.company_name);
@@ -116,7 +116,22 @@ var table = $('#rlist').DataTable({
          $('#ce_id').val(data.id);
     }, "JSON");
 });
+$(document).on('click','.update_company_user_info',function(){
+    var u_id = $(this).attr('u_id');
+    console.log(u_id);
+    $.post("<?php echo base_url()?>dashboard/company/user_info", {uid: u_id}, function(data) {
+        console.log(data);
+        $('#cusername').val(data.username);
+        $('#cpassword').val(data.password);
+        $('#crole_type').val(data.role_id);
+        $('#cphone').val(data.phone);
+        $('#cemail').val(data.email);
+        $('#cfullname').val(data.fullname);
+        $('#cuid').val(data.id);
 
+    }, "JSON");
+
+});
 
 $(document).on('change','#inputCompany',function(){
     var company_id = $(this).val();

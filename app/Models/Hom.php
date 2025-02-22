@@ -9,7 +9,7 @@ class Hom extends Model
 {
     protected $table = 'nusers'; // Good practice to define the table
     protected $primaryKey = 'id'; // Good practice to define the primary key
-    protected $allowedFields = ['username', 'password', 'fullname', 'phone', 'email']; // Allowed fields for mass assignment (CRUCIAL!)
+    protected $allowedFields = ['username', 'password', 'fullname','role_id', 'phone', 'email']; // Allowed fields for mass assignment (CRUCIAL!)
 
 
     public function __construct()
@@ -36,14 +36,27 @@ class Hom extends Model
     public function register_user($in)
     {
         $data = [
-            'username' => $in['email'],
+            'username' => $in['username'],
             'phone' => $in['phone'],
             'password' => password_hash($in['registerPassword'], PASSWORD_DEFAULT), // Hash the password
             'fullname' => $in['fullName'],
             'email' => $in['email'], // Added email field
         ];
+        if(isset($in['role_type'])){
+            $data['role_id'] = $in['role_type'];
+        }
+        $this->db->transStart();
 
-        return $this->db->table($this->table)->insert($data); // Use query builder and mass assignment
+        $res = $this->db->table($this->table)->insert($data); // Use query builder and mass assignment
+        if ($res) {
+            $insertedID = $this->db->insertID(); // Get the last inserted ID
+
+            $this->db->transComplete();
+            return $insertedID;
+        } else {
+            $this->db->transRollback();
+            return false;
+        }
     }
 
     public function get_routes($in)
