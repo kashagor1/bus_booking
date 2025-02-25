@@ -11,11 +11,15 @@ class Home extends Controller
     protected $routeModel;
     protected $session;
 
+    protected $dashModel;
+
     public function __construct()
     {
         $this->homModel = new \App\Models\Hom(); // Instantiate the model
         $this->seatsModel = new \App\Models\Seats();
         $this->routeModel = new \App\Models\Route();
+        $this->dashModel = new \App\Models\Dashboards();
+
         $this->session = \Config\Services::session(); // Get the session service
     }
 
@@ -31,18 +35,19 @@ class Home extends Controller
             . view('home/home')
             . view('home/footer');
     }
-   
 
-    public function newsearch(){
+
+    public function newsearch()
+    {
 
         return view('home/search_demo');
     }
 
 
-   
+
     public function search()
     {
-        if($this->session->get('booking_data') && isset($this->session->get('booking_data')['trip_type']) && $this->session->get('booking_data')['trip_type'] == 'oneWay') {
+        if ($this->session->get('booking_data') && isset($this->session->get('booking_data')['trip_type']) && $this->session->get('booking_data')['trip_type'] == 'oneWay') {
             $this->session->remove('booking_data');
         }
         $isLoggedin = $this->session->get('username') ? true : false;
@@ -51,9 +56,9 @@ class Home extends Controller
         $currentDate = date('Y-m-d');
         $inputDate = $in['date'];
         $next7Days = date('Y-m-d', strtotime('+7 days'));
-        
+
         $data['result'] = ($inputDate >= $currentDate && $inputDate <= $next7Days) ?
-        $this->homModel->get_bus($in) : null; // Use $this->homModel
+            $this->homModel->get_bus($in) : null; // Use $this->homModel
         $companies = [];
         $coach_types = [];
         foreach ($data['result'] as $trip) {
@@ -68,7 +73,7 @@ class Home extends Controller
         $data['ds'] = $in['destination'];
         $data['dt'] = $in['date'];
         $data['trip_type'] = $in['trip_type'];
-        if($data['trip_type'] == 'roundWay') {
+        if ($data['trip_type'] == 'roundWay') {
             $data['rt'] = $in['rdate'];
         }
 
@@ -82,41 +87,7 @@ class Home extends Controller
             . view('home/search', $data)
             . view('home/footer');
     }
-  public function get_seat_map() {
-    // Dummy seat map data (for testing only - replace with your actual data)
-    $seat_map = [
-        [
-            ["seat_number" => "1A", "available" => true],
-            ["seat_number" => "1B", "available" => false],
-            ["seat_number" => "1C", "available" => true],
-            ["seat_number" => "1D", "available" => true],
-            ["seat_number" => "1E", "available" => false]
-        ],
-        [
-            ["seat_number" => "2A", "available" => true],
-            ["seat_number" => "2B", "available" => true],
-            ["seat_number" => "2C", "available" => false],
-            ["seat_number" => "2D", "available" => true],
-            ["seat_number" => "2E", "available" => true]
-        ],
-        [
-            ["seat_number" => "3A", "available" => true],
-            ["seat_number" => "3B", "available" => false],
-            ["seat_number" => "3C", "available" => true],
-            ["seat_number" => "3D", "available" => true],
-            ["seat_number" => "3E", "available" => false]
-        ],
-        [
-            ["seat_number" => "4A", "available" => true],
-            ["seat_number" => "4B", "available" => true],
-            ["seat_number" => "4C", "available" => false],
-            ["seat_number" => "4D", "available" => true],
-            ["seat_number" => "4E", "available" => true]
-        ]
-    ];
 
-    echo json_encode(['status' => 'success', 'seat_map' => $seat_map]);
-}
     // public function seatselection()
     // {
     //     // $indata = json_decode($this->request->getPost('params'), true); // Use $this->request->getPost()
@@ -150,56 +121,61 @@ class Home extends Controller
     // }
 
     public function seatselection()
-{
-    $trip_id = $this->request->getPost('trip_id');
-    $route_id = $this->request->getPost('route_id');
-    $coach_id = $this->request->getPost('coach_id');
+    {
+        $trip_id = $this->request->getPost('trip_id');
+        $route_id = $this->request->getPost('route_id');
+        $coach_id = $this->request->getPost('coach_id');
 
-    if ($trip_id === null || $route_id === null || $coach_id === null) {
-        return $this->response->setJSON(['status' => false, 'message' => 'Missing required parameters']);
-    }
+        if ($trip_id === null || $route_id === null || $coach_id === null) {
+            return $this->response->setJSON(['status' => false, 'message' => 'Missing required parameters']);
+        }
 
-    // ... use $trip_id, $route_id, and $coach_id ...
+        // ... use $trip_id, $route_id, and $coach_id ...
 
-    $data['results'] = $this->seatsModel->booked_seats($trip_id);
-    $data['froute'] = $this->routeModel->get_full_route($route_id);
-    $data['info'] = $this->seatsModel->get_all_info($coach_id)[0];
-         return $this->response->setJSON([
+        $data['results'] = $this->seatsModel->booked_seats($trip_id);
+        $data['froute'] = $this->routeModel->get_full_route($route_id);
+        $data['info'] = $this->seatsModel->get_all_info($coach_id)[0];
+        return $this->response->setJSON([
             'status' => true,  // Indicate success
             'data' => $data,
         ]);
 
-    // ... rest of your code ...
-}
-    public function login() {
-      
+        // ... rest of your code ...
+    }
+    public function login()
+    {
+
         if (!$this->session->get('username')) {
             // Retrieve all form data properly
-            $rs = $this->request->getPost(); 
-            
+            $rs = $this->request->getPost();
+
             $data = ['isLoggedin' => false];
-    
+
             // Load views
             $view = view('home/header', $data) . view('home/lorform') . view('home/footer');
-    
+
             if ($rs && isset($rs['loginUsername'], $rs['loginPassword'])) {
                 // Encrypt the password
                 // $rs['loginPassword'] = md5($rs['loginPassword']);
-    
+
                 // Ensure the model is loaded before using it
                 $udata = $this->homModel->slogin($rs); // Use $this->homModel
-                if ($udata!=FALSE) { 
+                if ($udata != FALSE) {
                     $this->session->set('username', $udata->username);
                     $this->session->set('role_id', $udata->role_id);
+                    if ($udata->role_id == '110') {
+                        $com = $this->dashModel->get_com_id($udata->id);
+                        $this->session->set('com_id', $com->company_id);
+                    }
                     $this->session->setFlashdata('success', 'Logged in successfully');
                     $this->session->get('goto') ? $view = redirect()->to(base_url($this->session->get('goto'))) : $view = redirect()->to(base_url());
                     $this->session->remove('goto');
                     return $view; // Use base_url()
                 } else {
-                    return redirect()->to(base_url('login')); 
+                    return redirect()->to(base_url('login'));
                 }
             }
-    
+
             return $view;
         } elseif ($this->session->get('role_id') == '111' && $this->session->get('username')) {
             $this->session->setFlashdata('success', 'Logged in as admin');
@@ -208,7 +184,7 @@ class Home extends Controller
             return redirect()->to(base_url());
         }
     }
-    
+
 
     public function logout()
     {
@@ -240,11 +216,11 @@ class Home extends Controller
                 'roundWay' => $data['trip_type']
             ];
             $this->session->set('booking_data', $ata);
-            if($data['trip_type'] == 'roundWay') {
-                return redirect()->to(base_url('search?origin='.urlencode($ata['destination']).'&destination='.urlencode($ata['origin']).'&date='.urlencode($data['rdate']).'&trip_type=roundWay&rdate='));
+            if ($data['trip_type'] == 'roundWay') {
+                return redirect()->to(base_url('search?origin=' . urlencode($ata['destination']) . '&destination=' . urlencode($ata['origin']) . '&date=' . urlencode($data['rdate']) . '&trip_type=roundWay&rdate='));
             }
         }
-        if($data['trip_type'] == 'roundWay') {
+        if ($data['trip_type'] == 'roundWay') {
             $ata = [
                 'selected_seats' => $selectedSeats,
                 'coach_id' => $data['coach_id'],
@@ -271,7 +247,7 @@ class Home extends Controller
 
     public function payment()
     {
-       
+
         $data['isLoggedin'] = $this->session->get('username') ? true : false;
         $data['role_id'] = $this->session->get('role_id');
         $dat = $this->request->getPost();
@@ -289,7 +265,7 @@ class Home extends Controller
         if ($this->homModel->process_payment($post) == true) { // Use $this->homModel
             $this->session->remove('booking_data');
             $this->session->remove('return_booking_data');
-            return redirect()->to(BASE_URL('tickets'));
+            return redirect()->to(BASE_URL('personal/tickets'));
         } else {
             return redirect()->to(BASE_URL());
         }
@@ -298,13 +274,13 @@ class Home extends Controller
     public function fillinfo()
     {
         $isLoggedin = $this->session->get('username') ? true : false;
-       
+
         $data['isLoggedin'] = $this->session->get('username') ? true : false;
         $data['role_id'] = $this->session->get('role_id');
         $data['bookingData'] = $this->session->get('booking_data');
         // var_dump($data);die;
-       
-        if(!empty($this->session->get('return_booking_data'))){
+
+        if (!empty($this->session->get('return_booking_data'))) {
             $data['returnBookingData'] = $this->session->get('return_booking_data');
         }
         // if(!$bookingData) {
@@ -368,5 +344,5 @@ class Home extends Controller
     //           return view('home/header', $data) . view('home/lorform', $data) . view('home/footer'); // Display the registration form
     //         }
     //     }
-    
+
 }

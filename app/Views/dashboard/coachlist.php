@@ -74,9 +74,9 @@
                                 <td><?php echo $data['total_fare']; ?></td>
                                 
                                 <td>
-                                 <a href="<?php echo base_url()."dashboard/view_coach_info?id=".$data['coach_id'];?>">   <button class="btn btn-sm btn-success">View All Info</button></a>
+                                 <a href="<?php echo base_url()."dashboard/coach/view_info?id=".$data['coach_id'];?>">   <button class="btn btn-sm btn-success">View All Info</button></a>
 
-                                    <a href="<?php echo base_url()."dashboard/delete_coach?id=".$data['coach_id'];?>">   <button class="btn btn-sm btn-danger">Delete</button></a>
+                                    <a href="<?php echo base_url()."dashboard/coach/delete?id=".$data['coach_id'];?>">   <button class="btn btn-sm btn-danger">Delete</button></a>
 
                                 </td>
 

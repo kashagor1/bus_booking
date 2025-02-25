@@ -65,9 +65,9 @@ echo $time; ?></td>
                                
                                 
                                 <td>
-                                 <a href="<?php echo base_url()."dashboard/view_trip_info?id=".$data['id']."&cid=".$data['cid'];?>">   <button class="btn btn-sm btn-success">View All Info</button></a>
+                                 <a href="<?php echo base_url()."dashboard/trip/view_info?id=".$data['id']."&cid=".$data['cid'];?>">   <button class="btn btn-sm btn-success">View All Info</button></a>
 
-                                    <a href="<?php echo base_url()."dashboard/cancel_trip?id=".$data['id']."&cid=".$data['cid'];?>">   <button class="btn btn-sm btn-danger">Cancel</button></a>
+                                    <a href="<?php echo base_url()."dashboard/trip/cancel?id=".$data['id']."&cid=".$data['cid'];?>">   <button class="btn btn-sm btn-danger">Cancel</button></a>
 
                                 </td>
 

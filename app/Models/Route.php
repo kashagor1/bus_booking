@@ -66,6 +66,10 @@ class Route extends Model
             ->where('id', $data['id'])
             ->update();
     }
+    public function get_cr_info($id)
+    {
+        return $this->db->table($this->table)->where('route_id', $id)->get()->getResultArray();
+    }
 
     public function del_route($id)
     {
@@ -115,7 +119,7 @@ class Route extends Model
         return $builder->update(); // Return the result of the update
     }
 
-    public function list_routes2()
+    public function list_routes2($com_id)
     {
         $routeIds = $this->db->table($this->table)
             ->select('route_id as id')
@@ -135,7 +139,7 @@ class Route extends Model
                 ->where('point_type', 0)
                 ->get()
                 ->getRow();
-            $com_name =  $this->db->table('company')->select('company_name')->where('company_id', $route->company_id)->get()->getRow();
+            $com_name = $this->db->table('company')->select('company_name')->where('company_id', $route->company_id)->get()->getRow();
             $route2 = $this->db->table($this->table)
                 ->select('route_name, fare')
                 ->where('route_id', $id)
@@ -143,7 +147,7 @@ class Route extends Model
                 ->get()
                 ->getRow();
 
-             if ($route && $route2) { // Check if both queries returned results. Very important!
+            if ($route && $route2) { // Check if both queries returned results. Very important!
                 $routes[] = [
                     'id' => $id,
                     'route_name' => $route->route_name,
@@ -152,11 +156,70 @@ class Route extends Model
                     'company_name' => $com_name->company_name
                 ];
             } // else {
-                // Handle the case where one or both routes are not found.
-                // You might want to log an error or skip this route.
+            // Handle the case where one or both routes are not found.
+            // You might want to log an error or skip this route.
             // }
 
 
+        }
+
+        return $routes;
+    }
+    public function list_routes3($com_id = null)
+    {
+        $builder = $this->db->table($this->table)
+            ->select('route_id as id')
+            ->distinct()
+            ->orderBy('route_id', 'DESC');
+
+        if ($com_id !== null) {
+            $builder->where('company_id', $com_id); // Add company ID filter if provided
+        }
+
+        $routeIds = $builder->get()->getResultArray();
+
+        $routes = [];
+
+        foreach ($routeIds as $row) {
+            $id = $row['id'];
+
+            $builder = $this->db->table($this->table)
+                ->select('route_name, company_id')
+                ->where('route_id', $id)
+                ->where('point_type', 0);
+
+            if ($com_id !== null) {
+                $builder->where('company_id', $com_id);
+            }
+
+            $route = $builder->get()->getRow();
+
+            $com_name = $this->db->table('company')
+                ->select('company_name')
+                ->where('company_id', $route->company_id)
+                ->get()
+                ->getRow();
+
+            $builder = $this->db->table($this->table)
+                ->select('route_name, fare')
+                ->where('route_id', $id)
+                ->where('point_type', 1);
+
+            if ($com_id !== null) {
+                $builder->where('company_id', $com_id);
+            }
+
+            $route2 = $builder->get()->getRow();
+
+            if ($route && $route2) {
+                $routes[] = [
+                    'id' => $id,
+                    'route_name' => $route->route_name,
+                    'route_name2' => $route2->route_name,
+                    'fare' => $route2->fare,
+                    'company_name' => $com_name->company_name
+                ];
+            }
         }
 
         return $routes;

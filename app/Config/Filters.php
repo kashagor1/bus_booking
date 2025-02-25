@@ -34,6 +34,8 @@ class Filters extends BaseFilters
         'forcehttps'    => ForceHTTPS::class,
         'pagecache'     => PageCache::class,
         'performance'   => PerformanceMetrics::class,
+        'authAdmin'     => \App\Filters\AuthFilter::class, // Add your custom auth filter
+
     ];
 
     /**
@@ -69,6 +71,7 @@ class Filters extends BaseFilters
      */
     public array $globals = [
         'before' => [
+            // 'auth' => ['dashboard/*']
             // 'honeypot',
             // 'csrf',
             // 'invalidchars',
@@ -78,6 +81,10 @@ class Filters extends BaseFilters
             // 'secureheaders',
         ],
     ];
+    // public $filters = [
+    //     'auth' => ['before' => ['dashboard/*']], // Protect all Dashboard routes
+    // ];
+
 
     /**
      * List of filter aliases that works on a

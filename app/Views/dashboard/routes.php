@@ -6,21 +6,23 @@
             <div class="col-2"></div>
             <div class="col-8">
 
-                <form class="row g-3" method="POST" action="<?php echo base_url() ?>dashboard/create_route"
+                <form class="row g-3" method="POST" action="<?php echo base_url() ?>dashboard/routes/create"
                     id="section-form">
                     <div class="col-3">
                         <label for="inputAddress" class="form-label">Route ID</label>
-                        <input type="text" class="form-control" id="inputAddress" placeholder="1" name="route_id" value="<?php echo $route_id+1;?>"
-                            required readonly>
+                        <input type="text" class="form-control" id="inputAddress" placeholder="1" name="route_id"
+                            value="<?php echo $route_id + 1; ?>" required readonly>
                     </div>
                     <div class="col-4">
                         <label for="inputCompany" class="form-label">Company ID</label>
-                        <input type="text" class="form-control" id="inputCompany" placeholder="1" name="company_id"
-                            required>
+                        <input type="text" class="form-control" value="<?php echo isset($com_id) ? $com_id : "" ?>"
+                            id="inputCompany" placeholder="1" name="company_id" <?php echo isset($com_id) ? "readonly" : "required" ?>>
                     </div>
-                     <div class="col-5">
+                    <div class="col-5">
                         <label for="company_name" class="form-label">Company Name</label>
-                        <input type="text" class="form-control" id="company_name" placeholder="Company Name" name="company_name" required readonly>
+                        <input type="text" class="form-control" id="company_name" placeholder="Company Name"
+                            name="company_name" value="<?php echo isset($company_name) ? $company_name : "" ?>" required
+                            readonly>
                     </div>
                     <div class="col-12">
                         <div class="row py-1" style="text-align:center;">
@@ -57,7 +59,8 @@
                                 <input type="number" name="fare[]" class="form-control" required>
                             </div>
                             <div class="col-3">
-                                <select name="destination_type[]" class="form-control" aria-label="Select an option" required>
+                                <select name="destination_type[]" class="form-control" aria-label="Select an option"
+                                    required>
                                     <option selected>Select Destination Type</option>
                                     <option value="0">Main Boarding Point</option>
                                     <option value="2">Boarding Point</option>
@@ -67,7 +70,8 @@
                             </div>
                             <div class="col-2">
                                 <div class="text-center">
-                                    <button type="button" id="add-section" class="add-section btn btn-sm btn-primary">+</button>
+                                    <button type="button" id="add-section"
+                                        class="add-section btn btn-sm btn-primary">+</button>
                                     <button type="button" class="remove-section btn btn-sm btn-danger">-</button>
                                 </div>
                             </div>

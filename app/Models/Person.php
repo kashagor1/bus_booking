@@ -154,11 +154,11 @@ class Person extends Model
             }
             return $data;
         } catch (\Exception $e) {
-        $data = [];
+            $data = [];
 
             return $data; // Or handle the exception as needed
         }
-        
+
     }
 
     public function print_info($pnr)
@@ -171,7 +171,7 @@ class Person extends Model
             ->getResultArray();
 
         if (empty($query)) {
-          return null; // Or handle the case where no ticket is found
+            return null; // Or handle the case where no ticket is found
         }
 
         $data = $query[0];

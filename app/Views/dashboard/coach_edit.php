@@ -13,7 +13,7 @@ $arrivalTime = date("H:i", strtotime($info['arrival']));
             <div class="col-2"></div>
             <div class="col-8">
 
-                <form class="row g-3" method="POST" action="<?php echo base_url()?>dashboard/update_coach">
+                <form class="row g-3" method="POST" action="<?php echo base_url()?>dashboard/coach/update">
 
 
                     <div class="col-3">

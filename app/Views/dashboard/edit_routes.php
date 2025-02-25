@@ -6,7 +6,7 @@
             <div class="col-2"></div>
             <div class="col-8">
 
-                <form class="row g-3" method="POST" action="<?php echo base_url()?>dashboard/update_route" id="section-form">
+                <form class="row g-3" method="POST" action="<?php echo base_url()?>dashboard/routes/update" id="section-form">
                 <div class="col-6">
                         <label for="inputAddress" class="form-label">Route ID</label>
                         <input type="text" class="form-control" id="inputAddress" placeholder="<?php echo $results[0]['route_id']?>" name="route_id" disabled

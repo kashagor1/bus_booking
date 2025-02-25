@@ -9,8 +9,8 @@
         <div class="row">
         <div class="col-12 d-flex justify-content-center py-3">
 
-                <a href="<?php echo base_url()?>dashboard/print_trip_info?id=<?php echo $tr_id;?>&cid=<?php echo $co_id;?>"><button class="btn btn-info">Download Trip List</button></a>
-                <a href="<?php echo base_url()."dashboard/cancel_trip?id=".$tr_id."&cid=".$co_id;?>">   <button class="btn btn-danger ml-3">Cancel</button></a>
+                <a href="<?php echo base_url()?>dashboard/trip/print_info?id=<?php echo $tr_id;?>&cid=<?php echo $co_id;?>"><button class="btn btn-info">Download Trip List</button></a>
+                <a href="<?php echo base_url()."dashboard/trip/cancel?id=".$tr_id."&cid=".$co_id;?>">   <button class="btn btn-danger ml-3">Cancel</button></a>
 
             </div>
             <div class="col-1"></div>

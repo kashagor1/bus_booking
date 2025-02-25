@@ -34,9 +34,9 @@ class Personal extends Controller
             if ($this->request->getPost()) { // Use $this->request->getPost()
                 $this->personModel->update_uinfo($this->request->getPost()); // Use $this->personModel
             }
-            
+
             $user = $this->session->get('username');
-            $data['title']  = 'Profile Page';
+            $data['title'] = 'Profile Page';
             $data = [
                 'info' => $this->personModel->get_uinfo($user), // Use $this->personModel
                 'isLoggedin' => true,
@@ -77,11 +77,11 @@ class Personal extends Controller
                 'pnr' => $this->request->getGet('pnr'), // Use $this->request->getGet()
             ];
             if ($this->personModel->cancel_ticket($data)) { // Use $this->personModel
-                return redirect()->to(base_url('refund'));
+                return redirect()->to(base_url('personal/refund'));
             } else {
                 // Handle the case where cancellation fails.  Important!
                 $this->session->setFlashdata('error', 'Ticket cancellation failed.'); // Example with flash message
-                return redirect()->to(base_url('tickets'));
+                return redirect()->to(base_url('personal/tickets'));
             }
         } else {
             return redirect()->to(base_url());

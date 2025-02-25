@@ -24,13 +24,13 @@
                             <td><?php echo rtrim($ticket['seats'], ','); ?></td>
                             <td><?php echo $ticket['fare'] * count(explode(',', rtrim($ticket['seats'], ','))); ?></td>
                             <td>
-                                <a href="<?= base_url() ?>tickets/print?pnr=<?php echo $ticket['pnr']; ?>" class="btn btn-primary">Print</a>
+                                <a href="<?= base_url() ?>personal/tickets/print?pnr=<?php echo $ticket['pnr']; ?>" class="btn btn-primary">Print</a>
                                 <?php
                                 $currentDate = date('Y-m-d');
                                 $dateDiff = floor((strtotime($ticket['j_date']) - strtotime($currentDate)) / (60 * 60 * 24));
                                 $showCancelTicketButton = ($dateDiff >= 2); // Or TRUE, as before
                                 if ($showCancelTicketButton): ?>
-                                    <a href="<?= base_url() ?>tickets/cancel_ticket?pnr=<?php echo $ticket['pnr']; ?>" class="btn btn-danger">Cancel</a>
+                                    <a href="<?= base_url() ?>personal/tickets/cancel_ticket?pnr=<?php echo $ticket['pnr']; ?>" class="btn btn-danger">Cancel</a>
                                 <?php endif; ?>
                             </td>
                         </tr>

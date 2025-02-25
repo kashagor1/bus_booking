@@ -9,7 +9,9 @@ class Dashboards extends Model
     protected $table = 'company'; // Important: Define the table name
     protected $primaryKey = 'company_id'; // Define the primary key
     protected $allowedFields = [ // Define allowed fields for mass assignment (CRUCIAL!)
-        'company_name', 'company_phone', 'company_address'
+        'company_name',
+        'company_phone',
+        'company_address'
     ];
 
     public function __construct()
@@ -22,9 +24,9 @@ class Dashboards extends Model
     {
         // Use CodeIgniter's Query Builder to count trips
         return $this->db->table('trips')
-                        ->where('trip_status', 1) // status should be 1 (active)
-                        ->where('departure_date', $date) // Check for the given date
-                        ->countAllResults(); // Count matching results
+            ->where('trip_status', 1) // status should be 1 (active)
+            ->where('departure_date', $date) // Check for the given date
+            ->countAllResults(); // Count matching results
     }
     public function count_users()
     {
@@ -52,10 +54,10 @@ class Dashboards extends Model
             ->get()
             ->getRowArray();
         if ($data != null) {
-            return $data; 
+            return $data;
         } else {
             $data['company_name'] = 'No data found';
-            return $data; 
+            return $data;
         }
     }
 
@@ -81,7 +83,7 @@ class Dashboards extends Model
     {
         return $this->db->table('company')->countAllResults();
     }
-   
+
     public function create_coach($data)
     {
         $oname = str_replace("'", "''", $data['main_boarding']); // Sanitize input
@@ -108,97 +110,104 @@ class Dashboards extends Model
     }
 
 
-   public function create_company_user($data)
+    public function create_company_user($data)
     {
         $insertData = [
-            'company_id' => $data['company_id'],  
-            'user_id' => $data['user_id'],        
-            'role' => isset($data['role_type']) ? $data['role_type'] : 'default_role', 
+            'company_id' => $data['company_id'],
+            'user_id' => $data['user_id'],
+            'role' => isset($data['role_type']) ? $data['role_type'] : 'default_role',
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ];
 
-        $this->db->transStart(); 
+        $this->db->transStart();
 
         $res = $this->db->table('company_users')->insert($insertData);
 
         if ($res) {
-            $insertedID = $this->db->insertID(); 
+            $insertedID = $this->db->insertID();
             $this->db->transComplete();
             return $insertedID;
         } else {
             $this->db->transRollback();
-            return false; 
+            return false;
         }
     }
 
-  public function get_cusers($id) {
-    return $this->db->table('company_users')
-        ->join('nusers', 'company_users.user_id = nusers.id') // Corrected join
-        ->where('company_users.company_id', $id) // Fixed condition
-        ->get()
-        ->getResultArray(); // Fixed method name
+    public function get_cusers($id)
+    {
+        return $this->db->table('company_users')
+            ->join('nusers', 'company_users.user_id = nusers.id') // Corrected join
+            ->where('company_users.company_id', $id) // Fixed condition
+            ->get()
+            ->getResultArray(); // Fixed method name
     }
-    public function get_cuser_info($id){
-        return $this->db->table('nusers')->where('id',$id)->get()->getRowArray();
+    public function get_cuser_info($id)
+    {
+        return $this->db->table('nusers')->where('id', $id)->get()->getRowArray();
     }
-function user_update_validation($a, $b) {
-    return $a == $b;
-}
-public function update_user_role($id, $role) {
-    return $this->db->table('company_users')
-                    ->where('user_id', $id)
-                    ->update(['role' => $role]);
-}
+    function user_update_validation($a, $b)
+    {
+        return $a == $b;
+    }
+    public function update_user_role($id, $role)
+    {
+        return $this->db->table('company_users')
+            ->where('user_id', $id)
+            ->update(['role' => $role]);
+    }
 
 
-public function update_c_user($id, $postData) {
-    // Fetch current user info and convert to array
-    $r = (array) $this->get_cuser_info($id);
+    public function update_c_user($id, $postData)
+    {
+        // Fetch current user info and convert to array
+        $r = (array) $this->get_cuser_info($id);
 
-    // Define the user data array
-    $userData = [
-        'username'  => $postData['username'],
-        'role_id'   => $postData['role_type'],
-        'fullname'  => $postData['fullName'],
-        'password'  => $postData['registerPassword'],
-        'phone'     => $postData['phone'],
-        'email'     => $postData['email'],
-    ];
+        // Define the user data array
+        $userData = [
+            'username' => $postData['username'],
+            'role_id' => $postData['role_type'],
+            'fullname' => $postData['fullName'],
+            'password' => $postData['registerPassword'],
+            'phone' => $postData['phone'],
+            'email' => $postData['email'],
+        ];
 
-    // Debugging
-    
+        // Debugging
 
-    // Array to store updated fields
-    $data = [];
 
-    foreach ($userData as $key => $value) {
-        // Check if the key exists in fetched data
-        if($r[$key]!=$value){
-            if($key=='password'){
-                $data['password'] = password_hash($value, PASSWORD_DEFAULT);
-            }else{
-                $data[$key] = $value;
-            }
-            if($key == 'role_id'){
-                $this->update_user_role($id,$value);
+        // Array to store updated fields
+        $data = [];
+
+        foreach ($userData as $key => $value) {
+            // Check if the key exists in fetched data
+            if ($r[$key] != $value) {
+                if ($key == 'password') {
+                    $data['password'] = password_hash($value, PASSWORD_DEFAULT);
+                } else {
+                    $data[$key] = $value;
+                }
+                if ($key == 'role_id') {
+                    $this->update_user_role($id, $value);
+                }
             }
         }
+        // Only update if there are changes
+        if (!empty($data)) {
+            return $this->db->table('nusers')->where('id', $id)->update($data);
+        }
+        return false;
     }
-    // Only update if there are changes
-    if (!empty($data)) {
-       return $this->db->table('nusers')->where('id', $id)->update($data);
-    }
-    return false;
-}
 
-public function get_com_id($id) {
-   return $this->db->table('company_users')
-                   ->select('company_id') // Corrected the column name
-                   ->where('user_id', $id)
-                   ->get()
-                   ->getRow();
-}
+    public function get_com_id($id)
+    {
+        return $this->db->table('company_users')
+            ->select('company_id') // Corrected the column name
+            ->where('user_id', $id)
+            ->get()
+            ->getRow();
+    }
+
 
 
 

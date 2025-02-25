@@ -19,114 +19,83 @@ class Coach extends Controller
 
     public function index()
     {
-        if ($this->session->get('username') && $this->session->get('role_id') === '111') {
-            $data = [
-                'title' => "Add Coach",
-                'headline' => "Coaches",
-            ];
+        $role_id = $this->session->get();
+        var_dump($role_id);
+        die;
+        $data = [
+            'title' => "Add Coach",
+            'headline' => "Coaches",
+        ];
+        return view('dashboard/dash_header', $data) . view('dashboard/coach') . view('dashboard/dash_footer');
 
-            return view('dashboard/dash_header', $data)
-                . view('dashboard/coach')
-                . view('dashboard/dash_footer');
-        } else {
-            return redirect()->to(base_url('admin'));
-        }
     }
 
     public function list_coach()
     {
-        if ($this->session->get('username') && $this->session->get('role_id') === '111') {
-            $data = [
-                'title' => "Coach Lists",
-                'headline' => "Manage Coaches",
-                'result' => $this->dashboardsModel->coachlist(), // Use $this->dashboardsModel
-            ];
+        $data = [
+            'title' => "Coach Lists",
+            'headline' => "Manage Coaches",
+            'result' => $this->dashboardsModel->coachlist(), // Use $this->dashboardsModel
+        ];
 
-            return view('dashboard/dash_header', $data)
-                . view('dashboard/coachlist', $data)
-                . view('dashboard/dash_footer');
-        } else {
-            return redirect()->to(base_url('admin'));
-        }
+        return view('dashboard/dash_header', $data)
+            . view('dashboard/coachlist', $data)
+            . view('dashboard/dash_footer');
     }
 
     public function view_coach_info()
     {
-        if ($this->session->get('username') && $this->session->get('role_id') === '111') {
-            $id = $this->request->getGet('id'); // Use $this->request->getGet()
-            $data = [
-                'title' => "Edit Coach",
-                'headline' => "Coach",
-                'info' => $this->coachModel->get_info($id), // Use $this->coachModel
-                'coach_id' => $id,
-            ];
+        $id = $this->request->getGet('id'); // Use $this->request->getGet()
+        $data = [
+            'title' => "Edit Coach",
+            'headline' => "Coach",
+            'info' => $this->coachModel->get_info($id), // Use $this->coachModel
+            'coach_id' => $id,
+        ];
 
-            return view('dashboard/dash_header', $data)
-                . view('dashboard/coach_edit', $data)
-                . view('dashboard/dash_footer');
-        } else {
-            return redirect()->to(base_url('admin'));
-        }
+        return view('dashboard/dash_header', $data)
+            . view('dashboard/coach_edit', $data)
+            . view('dashboard/dash_footer');
     }
 
     public function coach_info()
     {
-        if ($this->session->get('username') && $this->session->get('role_id') === '111') {
-            $id = $this->request->getGet('id'); // Use $this->request->getGet()
-            $data = $this->coachModel->get_info($id); // Use $this->coachModel
-            return $this->response->setJSON($data); // Return JSON response
-        } else {
-            return redirect()->to(base_url('admin'));
-        }
+        $id = $this->request->getGet('id'); // Use $this->request->getGet()
+        $data = $this->coachModel->get_info($id); // Use $this->coachModel
+        return $this->response->setJSON($data); // Return JSON response
     }
 
     public function update_coach()
     {
-        if ($this->session->get('username') && $this->session->get('role_id') === '111') {
-            $data = $this->request->getPost(); // Use $this->request->getPost()
-
-            if ($this->coachModel->update_coach($data)) { // Use $this->coachModel
-                return redirect()->to(base_url('dashboard/list_coach'));
-            } else {
-                // Handle the error.  Important!  Flashdata, error messages, etc.
-                $this->session->setFlashdata('error', 'Coach update failed.');
-                return redirect()->back(); // Redirect back to the form.
-            }
+        $data = $this->request->getPost(); // Use $this->request->getPost()
+        if ($this->coachModel->update_coach($data)) { // Use $this->coachModel
+            return redirect()->to(base_url('dashboard/coach/list'));
         } else {
-            return redirect()->to(base_url('admin'));
+            $this->session->setFlashdata('error', 'Coach update failed.');
+            return redirect()->back(); // Redirect back to the form.
         }
     }
 
     public function delete_coach()
     {
-        if ($this->session->get('username') && $this->session->get('role_id') === '111') {
-            $id = $this->request->getGet('id'); // Use $this->request->getGet()
-
-            if ($this->coachModel->delete_coach($id)) { // Use $this->coachModel
-                return redirect()->to(base_url('dashboard/list_coach'));
-            } else {
-                 // Handle the error.  Important!  Flashdata, error messages, etc.
-                $this->session->setFlashdata('error', 'Coach delete failed.');
-                return redirect()->back(); // Redirect back to the list.
-            }
+        $id = $this->request->getGet('id'); // Use $this->request->getGet()
+        if ($this->coachModel->delete_coach($id)) { // Use $this->coachModel
+            return redirect()->to(base_url('dashboard/coach/list'));
         } else {
-            return redirect()->to(base_url('admin'));
+            $this->session->setFlashdata('error', 'Coach delete failed.');
+            return redirect()->back(); // Redirect back to the list.
         }
     }
 
     public function create_coach()
     {
-        if ($this->session->get('username')) {
-            $data = $this->request->getPost(); // Use $this->request->getPost()
-            if ($this->dashboardsModel->create_coach($data)) { // Use $this->dashboardsModel
-                return redirect()->to(base_url('dashboard/list_coach')); // Redirect after successful creation
-            } else {
-                // Handle the error.  Important!  Flashdata, error messages, etc.
-                $this->session->setFlashdata('error', 'Coach creation failed.');
-                return redirect()->to(base_url('dashboard/coach')); // Redirect back to the form
-            }
+        $data = $this->request->getPost(); // Use $this->request->getPost()
+        if ($this->dashboardsModel->create_coach($data)) { // Use $this->dashboardsModel
+            return redirect()->to(base_url('dashboard/coach/list')); // Redirect after successful creation
         } else {
-            return redirect()->to(base_url('admin'));
+            // Handle the error.  Important!  Flashdata, error messages, etc.
+            $this->session->setFlashdata('error', 'Coach creation failed.');
+            return redirect()->to(base_url('dashboard/coach')); // Redirect back to the form
         }
     }
 }

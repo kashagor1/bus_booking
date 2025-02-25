@@ -20,7 +20,7 @@ class Login extends Model
     {
         $builder = $this->db->table($this->table); // Use query builder
         $builder->where('username', $data['user_name']);
-        
+
         $user = $builder->get()->getRow();
 
 
@@ -30,7 +30,7 @@ class Login extends Model
             return null; // Or false, or throw an exception – handle as needed
         }
     }
-    
+
     public function register_user($in)
     {
         $data = [

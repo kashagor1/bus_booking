@@ -131,7 +131,7 @@
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="<?php echo base_url() ?>dashboard/list_route2" class="nav-link">
+                    <a href="<?php echo base_url() ?>dashboard/routes/lists" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Route List</p>
                     </a>
@@ -155,7 +155,7 @@
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="<?php echo base_url() ?>dashboard/list_coach" class="nav-link">
+                    <a href="<?php echo base_url() ?>dashboard/coach/list" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Coach List</p>
                     </a>
@@ -179,7 +179,7 @@
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="<?php echo base_url() ?>dashboard/list_trip" class="nav-link">
+                    <a href="<?php echo base_url() ?>dashboard/trip/list" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
                       <p> Trip List</p>
                     </a>
@@ -201,7 +201,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="<?php echo base_url() ?>dashboard/refund" class="nav-link">
+                <a href="<?php echo base_url() ?>dashboard/ticket/refund" class="nav-link">
                 <i class='fas fa-ticket-alt'></i>
                               <p>
                     Refund Tickets

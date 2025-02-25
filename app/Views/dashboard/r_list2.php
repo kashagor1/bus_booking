@@ -53,9 +53,9 @@
                                 </td>
                           
                                 <td>
-                                 <a href="<?php echo base_url()."dashboard/view_full_route?id=".$data['id'];?>">   <button class="btn btn-sm btn-success">View Full Route</button></a>
+                                 <a href="<?php echo base_url()."dashboard/routes/view_full?id=".$data['id'];?>">   <button class="btn btn-sm btn-success">View Full Route</button></a>
 
-                                    <a href="<?php echo base_url()."dashboard/delete_route?id=".$data['id'];?>">   <button class="btn btn-sm btn-danger">Delete</button></a>
+                                    <a href="<?php echo base_url()."dashboard/routes/delete?id=".$data['id'];?>">   <button class="btn btn-sm btn-danger">Delete</button></a>
 
                                 </td>
 

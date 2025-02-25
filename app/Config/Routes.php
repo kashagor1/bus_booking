@@ -48,7 +48,7 @@ $routes->group('admin', function ($routes) {
 });
 
 // Dashboard Routes
-$routes->group('dashboard', function ($routes) {
+$routes->group('dashboard', ['filter' => 'authAdmin'], function ($routes) {
     $routes->get('/', 'Dashboard::index');
     $routes->get('purchased_tickets/(:segment)', 'Dashboard::purchased_tickets/$1');
 
@@ -59,13 +59,13 @@ $routes->group('dashboard', function ($routes) {
         $routes->get('edit_info', 'Dashboard::company_edit');
         $routes->post('update', 'Dashboard::update_company');
         $routes->get('delete', 'Dashboard::delete_company');
-        $routes->get('info', 'Dashboard::company_info');
+        $routes->get('company_info', 'Dashboard::company_info');
         $routes->post('users/update', 'Dashboard::update_user'); // Changed to POST after debugging
         $routes->get('users/delete/(:segment)', 'Dashboard::delete_cusers/$1');
-        $routes->post('user_info','Dashboard::user_info');
+        $routes->post('user_info', 'Dashboard::user_info');
         $routes->get('users/(:segment)', 'Dashboard::cusers/$1');
         $routes->post('users/(:segment)', 'Dashboard::cusers/$1');
-   
+
     });
 
     // Route Management
@@ -73,12 +73,12 @@ $routes->group('dashboard', function ($routes) {
         $routes->get('/', 'Routes::index');
         $routes->post('create', 'Routes::create_route');
         $routes->get('delete', 'Routes::del_route');
-        $routes->get('delete_w_route', 'Routes::del_w_route');
-        $routes->get('list', 'Routes::list_route');
-        $routes->get('list2', 'Routes::list_route2');
+        // $routes->get('delete_w_route', 'Routes::del_w_route');
+        // $routes->get('list', 'Routes::list_route');
+        $routes->get('lists', 'Routes::list_route2');
         $routes->get('view_full', 'Routes::view_full_route');
         $routes->get('edit_info', 'Routes::route_edit');
-        $routes->post('update_info', 'Routes::up_route');
+        // $routes->post('update_info', 'Routes::up_route');
         $routes->post('update', 'Routes::update_route');
     });
 
@@ -87,6 +87,8 @@ $routes->group('dashboard', function ($routes) {
         $routes->get('/', 'Dashboard::ticket');
         $routes->get('refund', 'Dashboard::refund');
         $routes->get('sendref', 'Dashboard::sendref');
+        $routes->get('print', 'Personal::print_ticket');
+
     });
 
     // Trip Management

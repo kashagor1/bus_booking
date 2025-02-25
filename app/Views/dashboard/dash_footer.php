@@ -1,9 +1,9 @@
 </div>
 <footer class="main-footer">
-    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
+    <strong>Copyright &copy; 2023-<?=Date('Y')?> <a href="http://kashagor.my.id/" target="_blank">kashagor.my.id</a>.</strong>
     All rights reserved.
     <div class="float-right d-none d-sm-inline-block">
-      <b>Version</b> 3.2.0
+      <b>Version</b> 1.2.0
     </div>
   </footer>
 
@@ -136,7 +136,7 @@ $(document).on('click','.update_company_user_info',function(){
 $(document).on('change','#inputCompany',function(){
     var company_id = $(this).val();
     console.log(company_id);
-    $.get("<?php echo base_url()?>dashboard/company_info", {cid: company_id}, function(data) {
+    $.get("<?php echo base_url()?>dashboard/company/company_info", {cid: company_id}, function(data) {
         console.log(data);
         $('#company_name').val(data.company_name);
     }, "JSON");
@@ -145,7 +145,7 @@ $(document).on('change','#inputCompany',function(){
   $(document).on('click', '.update_route_info', function() {
     var r_id = $(this).attr("c_id");
     console.log(r_id);
-    $.post("<?php echo base_url()?>dashboard/route_edit_info", {cid: r_id}, function(data) {
+    $.post("<?php echo base_url()?>dashboard/routes/edit_info", {cid: r_id}, function(data) {
         console.log(data);
          $('#edit_r_name').val(data.route_name);
          $('#edit_r_fare').val(data.fare);
@@ -191,7 +191,7 @@ $('#cc_route_id').on('input', function() {
     console.log(searchTerm);
     // AJAX request to fetch information from CodeIgniter
     $.ajax({
-      url: 'odtbaseonroi',
+      url: '<?php echo base_url()?>district/odtbaseonroi',
       method: 'POST',
       data: { id: searchTerm },
       dataType: 'json',
@@ -221,7 +221,7 @@ $('#cc_route_id').on('input', function() {
     console.log(searchTerm);
     // AJAX request to fetch information from CodeIgniter
     $.ajax({
-      url: 'coach_info',
+      url: '<?php echo base_url('dashboard/coach/info')?>',
       method: 'GET',
       data: { id: searchTerm },
       dataType: 'json',

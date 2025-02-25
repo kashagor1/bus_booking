@@ -60,7 +60,7 @@
                                     <?php echo $data['bkash'];?>
                                 </td>
                                 <td>
-                        <a href="<?php echo base_url().'dashboard/sendref?pnr='.$data['pnr'];?>">  <button class="btn btn-primary btn-sm">Refund</button></a>
+                        <a href="<?php echo base_url().'dashboard/ticket/sendref?pnr='.$data['pnr'];?>">  <button class="btn btn-primary btn-sm">Refund</button></a>
                                 </td>
                                 
 

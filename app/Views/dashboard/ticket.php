@@ -2,7 +2,7 @@
 <div class="container">
     <div class="row justify-content-center">
       <div class="col-md-6">
-      <form class="form-inline" action="<?=base_url()?>tickets/print" method="get">
+      <form class="form-inline" action="<?=base_url()?>dashboard/ticket/print" method="get">
           <div class="form-group mb-2">
             <label for="pnrInput" class="mr-2">PNR:</label>
             <input type="text" class="form-control" name ="pnr" id="pnrInput">
