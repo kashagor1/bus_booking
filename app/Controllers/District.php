@@ -24,6 +24,7 @@ class District extends Controller
     public function route_info()
     {
         $ni = $this->request->getPost('id'); // Use $this->request->getPost()
+        
 
         $roi_data = $this->districtsModel->get_all_roi($ni); // Store the returned data
         return $this->response->setJSON($roi_data); // Use setJSON for correct JSON response

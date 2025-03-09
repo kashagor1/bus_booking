@@ -11,7 +11,8 @@
     integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-  <link rel="stylesheet" href="<?PHP echo BASE_URL(); ?>assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet"
+    href="<?PHP echo BASE_URL(); ?>assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet"
     href="<?PHP echo BASE_URL(); ?>assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
   <link rel="stylesheet"
@@ -22,6 +23,7 @@
   <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.7.0.js"></script>
   <script type="text/javascript" charset="utf8"
     src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <script src="https://www.google.com/recaptcha/api.js?render=6LcZDugqAAAAALqI99uP9QpqwP4dQ3GqJkxmO49V"></script>
 </head>
 
 <link rel="stylesheet" href="assets/home.css">
@@ -69,10 +71,10 @@
               <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                 <?php if ($isLoggedin == false): ?>
 
-                  <li><a class="dropdown-item" href="<?= BASE_URL() ?>login#login">Login</a></li>
-                  <li><a class="dropdown-item" href="<?= BASE_URL() ?>login#register">Register</a></li>
+                  <li><a class="dropdown-item" href="<?= BASE_URL('login') ?>">Login</a></li>
+                  <li><a class="dropdown-item" href="<?= BASE_URL('register') ?>">Register</a></li>
                 <?php else: ?>
-                  <li><a class="dropdown-item" href="<?= BASE_URL() ?>logout">Log Out</a></li>
+                  <li><a class="dropdown-item" href="<?= BASE_URL('logout') ?>">Log Out</a></li>
                 <?php endif; ?>
               </ul>
             </li>

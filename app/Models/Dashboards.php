@@ -75,10 +75,15 @@ class Dashboards extends Model
             ->delete();
     }
 
-    public function coachlist()
+    public function coachlist($com_id = null)
     {
-        return $this->db->table('coach')->get()->getResultArray();
+        if ($com_id !== null) {
+            return $this->db->table('coach')->where('company_id', $com_id)->get()->getResultArray();
+        } else {
+            return $this->db->table('coach')->get()->getResultArray();
+        }
     }
+
     public function count_companies()
     {
         return $this->db->table('company')->countAllResults();

@@ -144,46 +144,60 @@ class Home extends Controller
     }
     public function login()
     {
-
-        if (!$this->session->get('username')) {
-            // Retrieve all form data properly
-            $rs = $this->request->getPost();
-
-            $data = ['isLoggedin' => false];
-
-            // Load views
-            $view = view('home/header', $data) . view('home/lorform') . view('home/footer');
-
-            if ($rs && isset($rs['loginUsername'], $rs['loginPassword'])) {
-                // Encrypt the password
-                // $rs['loginPassword'] = md5($rs['loginPassword']);
-
-                // Ensure the model is loaded before using it
-                $udata = $this->homModel->slogin($rs); // Use $this->homModel
-                if ($udata != FALSE) {
-                    $this->session->set('username', $udata->username);
-                    $this->session->set('role_id', $udata->role_id);
-                    if ($udata->role_id == '110') {
-                        $com = $this->dashModel->get_com_id($udata->id);
-                        $this->session->set('com_id', $com->company_id);
-                    }
-                    $this->session->setFlashdata('success', 'Logged in successfully');
-                    $this->session->get('goto') ? $view = redirect()->to(base_url($this->session->get('goto'))) : $view = redirect()->to(base_url());
-                    $this->session->remove('goto');
-                    return $view; // Use base_url()
-                } else {
-                    return redirect()->to(base_url('login'));
-                }
+        if ($this->session->get('username')) {
+            if ($this->session->get('role_id') == '111') {
+                $this->session->setFlashdata('success', 'Logged in as admin');
+                return redirect()->to(base_url('profile'));
             }
-
-            return $view;
-        } elseif ($this->session->get('role_id') == '111' && $this->session->get('username')) {
-            $this->session->setFlashdata('success', 'Logged in as admin');
-            return redirect()->to(base_url('profile'));
-        } else {
             return redirect()->to(base_url());
         }
+
+        // Retrieve all form data
+        $rs = $this->request->getPost();
+        $data = ['isLoggedin' => false];
+
+        // Load views
+        $view = view('home/header', $data) . view('home/lorform') . view('home/footer');
+
+        if ($rs) {
+            // Validate input fields
+            if (empty($rs['loginUsername']) || empty($rs['loginPassword'])) {
+                $this->session->setFlashdata('error', 'Username and password are required.');
+                return redirect()->to(base_url('login'));
+            }
+
+            // Ensure the model is loaded before using it
+            $udata = $this->homModel->slogin($rs); // Use $this->homModel
+
+            if ($udata !== FALSE) {
+                $this->session->set('username', $udata->username);
+                $this->session->set('role_id', $udata->role_id);
+
+                if ($udata->role_id == '110') {
+                    $com = $this->dashModel->get_com_id($udata->id);
+                    $this->session->set('com_id', $com->company_id);
+                }
+
+                $this->session->setFlashdata('success', 'Logged in successfully');
+
+                if ($this->session->get('goto')) {
+                    $view = redirect()->to(base_url($this->session->get('goto')));
+                    $this->session->remove('goto');
+                } else {
+                    $view = redirect()->to(base_url());
+                }
+
+                return $view;
+            } else {
+                // Set error message for incorrect login
+                $this->session->setFlashdata('error', 'Invalid username or password.');
+                return redirect()->to(base_url('login'));
+            }
+        }
+
+        return $view;
     }
+
 
 
     public function logout()
@@ -308,18 +322,54 @@ class Home extends Controller
 
     public function newreg()
     {
-        $rs = $this->request->getPost();
-        $cr_res = $this->homModel->register_user($rs); // Use $this->homModel
+        // Check if it's a POST request (form submission)
+        if ($this->request->getPost()) {
+            $rs = $this->request->getPost();
+            $recaptchaResponse = $this->request->getPost('g-recaptcha-response');
 
-        if ($cr_res) {
-            $this->session->set('username', $rs['email']);
-            $this->session->get('goto') ? $view = redirect()->to(base_url($this->session->get('goto'))) : $view = redirect()->to(base_url());
-            $this->session->remove('goto');
-            return $view;
-        } else {
-            return redirect()->to(BASE_URL('login'));
+            if (!$recaptchaResponse) {
+                return redirect()->back()->with('error', 'reCAPTCHA verification failed.');
+            }
+
+            $secretKey = '6LcZDugqAAAAADed4-WPs7ymSYOVnzBWRff6hb7y';  // Replace with your Google reCAPTCHA secret key
+            $verifyURL = "https://www.google.com/recaptcha/api/siteverify";
+
+            // Verify reCAPTCHA response
+            $response = file_get_contents("$verifyURL?secret=$secretKey&response=$recaptchaResponse");
+            $responseData = json_decode($response);
+
+
+            if (!$responseData->success || $responseData->score < 0.5) {
+                return redirect()->to(BASE_URL('login'))->with('error', 'reCAPTCHA verification failed.');
+            }
+            // Call the model to register the user
+            $cr_res = $this->homModel->register_user($rs);
+
+            if ($cr_res) {
+                // Store username (or email) in session
+                $this->session->set('username', $rs['email']);
+
+                // Redirect to the previous page or to the home page if no 'goto' session exists
+                $goto = $this->session->get('goto');
+                $view = $goto ? redirect()->to(base_url($goto)) : redirect()->to(base_url());
+                $this->session->remove('goto');
+                return $view;
+            } else {
+                // If registration fails, redirect back to login
+                return redirect()->to(base_url('login'));
+            }
         }
+        $data = ['isLoggedin' => false];
+
+
+        // For GET request, just return the registration form
+        return view('home/header', $data) . view('home/userreg') . view('home/footer');
     }
+
+
+
+
+
     //Special registration function for midform but not needed now as we have a general registration function
     // public function register(){
     //         $rs = $this->request->getPost();

@@ -11,12 +11,20 @@ class Trip extends Controller
 {
     protected $tripsModel;
     protected $session;
+    protected $role_id;
+    protected $com_id;
+    protected $coachModel;
     protected $pdf; // Add this for the PDF library
 
     public function __construct()
     {
         $this->tripsModel = new \App\Models\Trips(); // Instantiate the model
+        $this->coachModel = new \App\Models\Coaach(); // Instantiate the Coach model
+
         $this->session = \Config\Services::session();
+
+        $this->role_id = $this->session->get("role_id");
+        $this->com_id = $this->session->get('com_id');
         $options = new Options();
         $options->set('defaultFont', 'Helvetica'); // Optional: Set default font
         $this->pdf = new Dompdf($options);
@@ -29,7 +37,6 @@ class Trip extends Controller
             'headline' => "Trips",
             'trip_id' => $this->tripsModel->get_trip_number(), // Use $this->tripsModel
         ];
-
         return view('dashboard/dash_header', $data)
             . view('dashboard/trip', $data)
             . view('dashboard/dash_footer');
@@ -38,6 +45,15 @@ class Trip extends Controller
     public function create_trip()
     {
         $data = $this->request->getPost(); // Use $this->request->getPost()
+        $coach = $this->coachModel->get_info($data['cc_route_id']);
+
+        if (!$coach) {
+            return redirect()->to(base_url('dashboard/coach/list'))->with('error', 'Coach not found.');
+        }
+
+        if ($coach['company_id'] != $this->com_id) {
+            return redirect()->to(base_url('dashboard/coach/list'))->with('error', 'Unauthorized Action. This coach does not belong to your company.');
+        }
         $this->tripsModel->create_trip($data); // Use $this->tripsModel
         return redirect()->to(base_url('dashboard/trip'));
     }

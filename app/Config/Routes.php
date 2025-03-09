@@ -25,8 +25,9 @@ $routes->post('process_payment', 'Home::process_payment');
 $routes->group('', function ($routes) {
     $routes->get('login', 'Home::login');
     $routes->post('login', 'Home::login');
+    $routes->get('register', 'Home::newreg');
+    $routes->post('register', 'Home::newreg');
     $routes->get('logout', 'Home::logout');
-    $routes->post('newreg', 'Home::newreg');
 });
 
 // User Routes

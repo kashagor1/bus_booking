@@ -9,15 +9,15 @@ class Hom extends Model
 {
     protected $table = 'nusers'; // Good practice to define the table
     protected $primaryKey = 'id'; // Good practice to define the primary key
-    protected $allowedFields = ['username', 'password', 'fullname','role_id', 'phone', 'email']; // Allowed fields for mass assignment (CRUCIAL!)
+    protected $allowedFields = ['username', 'password', 'fullname', 'role_id', 'phone', 'email']; // Allowed fields for mass assignment (CRUCIAL!)
 
 
     public function __construct()
     {
         parent::__construct();
         $this->db = \Config\Database::connect();
-        $this->ticketModel = new TicketModel(); 
-        $this->purchaseInfoModel = new PurchaseInfoModel(); 
+        $this->ticketModel = new TicketModel();
+        $this->purchaseInfoModel = new PurchaseInfoModel();
     }
 
     public function slogin($in)
@@ -36,13 +36,14 @@ class Hom extends Model
     public function register_user($in)
     {
         $data = [
-            'username' => $in['username'],
+            'username' => isset($in['username']) ? $in['username'] : $in['email'], // Corrected `isset`
             'phone' => $in['phone'],
             'password' => password_hash($in['registerPassword'], PASSWORD_DEFAULT), // Hash the password
             'fullname' => $in['fullName'],
             'email' => $in['email'], // Added email field
         ];
-        if(isset($in['role_type'])){
+
+        if (isset($in['role_type'])) {
             $data['role_id'] = $in['role_type'];
         }
         $this->db->transStart();
@@ -106,7 +107,7 @@ class Hom extends Model
         $dddd = $this->db->query($qqqq, [$data['rid']])->getRow();
 
         if (!$dddd) { // Handle the case where no route is found
-          return 0; // Or throw an exception, or return an error value
+            return 0; // Or throw an exception, or return an error value
         }
 
         $final_price = $dddd->fare;
@@ -116,7 +117,7 @@ class Hom extends Model
             $qq = "SELECT * FROM routes WHERE route_name=? AND route_id=? AND point_type IN (0,2)"; // Parameterized query
             $dd = $this->db->query($qq, [$data['origin'], $data['rid']])->getRow();
             if ($dd) {
-              $final_price -= $dd->fare;
+                $final_price -= $dd->fare;
             }
         } else {
             $qq = "SELECT * FROM routes WHERE route_name=? AND route_id=? AND point_type IN (0,2)"; // Parameterized query
@@ -255,25 +256,26 @@ class Hom extends Model
 
         $bookingData = $post['booking_data'];
         $personalInfo = $post['personal_info'];
-        
-        $result = $this->confirm_tickets($username, $bookingData, $personalInfo); // Store the result
-        if(isset($post['return_booking_data'])){
 
-            $rbookingData  = $post['return_booking_data'];
+        $result = $this->confirm_tickets($username, $bookingData, $personalInfo); // Store the result
+        if (isset($post['return_booking_data'])) {
+
+            $rbookingData = $post['return_booking_data'];
             $rips = $post['personal_info'];
-            $returnpersonalInfo['seat']  =  $rips['rseat'];
-            $returnpersonalInfo['name']  = $rips['rname'];
+            $returnpersonalInfo['seat'] = $rips['rseat'];
+            $returnpersonalInfo['name'] = $rips['rname'];
             $returnResult = $this->confirm_tickets($username, $rbookingData, $returnpersonalInfo);
             return $returnResult && $result; // Return true only if BOTH are successful.
         }
         return $result;
     }
 
-    private function confirm_tickets($username,$bookingData,$personalInfo){
-        $fare =  $bookingData['fare'];
+    private function confirm_tickets($username, $bookingData, $personalInfo)
+    {
+        $fare = $bookingData['fare'];
         $selectedSeats = $personalInfo['seat'];
         $passengerNames = $personalInfo['name'];
-        $currentDate = date('Y-m-d'); 
+        $currentDate = date('Y-m-d');
 
         $pnr = $this->generatePNR();
         // Use a single transaction for atomicity (all operations succeed or none)
@@ -295,7 +297,7 @@ class Hom extends Model
                 ];
 
                 $this->ticketModel->insert($ticketData); // Use the TicketModel
-                
+
             }
 
             $purchase_info = [
@@ -312,7 +314,7 @@ class Hom extends Model
         } catch (\Exception $e) {
             $this->db->transRollback();
             // Log the error for debugging.  Important!
-            log_message('error', $e->getMessage()); 
+            log_message('error', $e->getMessage());
             return false; // Or return an error message for the user.
         }
     }
